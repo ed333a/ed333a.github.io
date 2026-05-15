@@ -1,0 +1,744 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>ETH-02 RGMII 接口和 GMII 接口的互相转换 | 硬件日记 | TYH123</title><meta name="author" content="TYH123"><meta name="copyright" content="TYH123"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在 ETH-01 初识以太网的硬件组成 中我讲到了 RGMII 接口和 GMII 的两种数据接口。本篇则围绕这两种数据接口的互相转换展开。 前言在 FPGA 中，数据通常只在时钟的上升沿被采集。对于采用双边沿数据有效的 RGMII 接口而言，若仅使用上升沿进行采样，就会丢失下降沿所对应的数据。同理，FPGA 在输出数据时，也只能在上升沿发生变化。为解决这一问题，Xilinx 提供了 IDDR 和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ETH-02 RGMII 接口和 GMII 接口的互相转换">
+<meta property="og:url" content="http://example.com/5992f3f76e72/index.html">
+<meta property="og:site_name" content="硬件日记 | TYH123">
+<meta property="og:description" content="在 ETH-01 初识以太网的硬件组成 中我讲到了 RGMII 接口和 GMII 的两种数据接口。本篇则围绕这两种数据接口的互相转换展开。 前言在 FPGA 中，数据通常只在时钟的上升沿被采集。对于采用双边沿数据有效的 RGMII 接口而言，若仅使用上升沿进行采样，就会丢失下降沿所对应的数据。同理，FPGA 在输出数据时，也只能在上升沿发生变化。为解决这一问题，Xilinx 提供了 IDDR 和">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img/avatar.jpg">
+<meta property="article:published_time" content="2026-04-14T06:26:09.000Z">
+<meta property="article:modified_time" content="2026-05-15T11:01:00.446Z">
+<meta property="article:author" content="TYH123">
+<meta property="article:tag" content="FPGA">
+<meta property="article:tag" content="Verilog">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="经验分享">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ETH-02 RGMII 接口和 GMII 接口的互相转换",
+  "url": "http://example.com/5992f3f76e72/",
+  "image": "http://example.com/img/avatar.jpg",
+  "datePublished": "2026-04-14T06:26:09.000Z",
+  "dateModified": "2026-05-15T11:01:00.446Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "TYH123",
+      "url": "http://example.com/about/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/5992f3f76e72/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.9/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":3,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightWordWrap":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":true,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'ETH-02 RGMII 接口和 GMII 接口的互相转换',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/bg.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/index.html"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/about"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url(/img/bg.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">硬件日记 | TYH123</span></a><a class="nav-page-title" href="/"><span class="site-name">ETH-02 RGMII 接口和 GMII 接口的互相转换</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/index.html"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/about"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">ETH-02 RGMII 接口和 GMII 接口的互相转换</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-14T06:26:09.000Z" title="发表于 2026-04-14 14:26:09">2026-04-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-15T11:01:00.446Z" title="更新于 2026-05-15 19:01:00">2026-05-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/FPGA/">FPGA</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><div id="post-outdate-notice" data="{&quot;limitDay&quot;:365,&quot;messagePrev&quot;:&quot;请注意，因本文距离最近一次修改已经过了&quot;,&quot;messageNext&quot;:&quot;天。文章内容可能已经过时。文中引用的部分信息，尤其是更新迭代频繁的资源，可能与当前最新版本存在差异。建议读者在参考时，以官方发布的最新资料为准。&quot;,&quot;postUpdate&quot;:&quot;2026-05-15 19:01:00&quot;}" hidden></div><p>在 <a href="ETH-01%20%E5%88%9D%E8%AF%86%E4%BB%A5%E5%A4%AA%E7%BD%91%E7%9A%84%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90.md">ETH-01 初识以太网的硬件组成</a> 中我讲到了 RGMII 接口和 GMII 的两种数据接口。本篇则围绕这两种数据接口的互相转换展开。</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p><strong>在 FPGA 中，数据通常只在时钟的上升沿被采集。对于采用双边沿数据有效的 RGMII 接口而言，若仅使用上升沿进行采样，就会丢失下降沿所对应的数据</strong>。同理，FPGA 在输出数据时，也只能在上升沿发生变化。为解决这一问题，Xilinx 提供了 <code>IDDR</code> 和 <code>ODDR</code> 两个原语，分别用于接收和发送双边沿数据。</p>
+<blockquote>
+<p>下方所有配图均来自 <a target="_blank" rel="noopener" href="https://docs.amd.com/v/u/en-US/ug471_7Series_SelectIO">7Series FPGAs SelectIO Resources User Guide (UG471)</a><br>你可以打开 DOCNav 来搜索对应的文档名称</p>
+</blockquote>
+<h3 id="IDDR-Input-Double-Data-Rate"><a href="#IDDR-Input-Double-Data-Rate" class="headerlink" title="IDDR (Input Double Data Rate)"></a>IDDR (Input Double Data Rate)</h3><p><code>IDDR</code> 的作用是将 RGMII 接口中的<strong>双边沿数据</strong> (DDR) 转换为 FPGA 内部可以处理的<strong>单边沿数据</strong>，<code>IDDR</code> 将双边沿变化的数据通过寄存器输出到了 Q1&#x2F;Q2 两个端口上，分别代表上升沿的数据和下降沿的数据。</p>
+<p>下面是 IDDR 原语的语言模板</p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">IDDR #<span class="token punctuation">(</span>
+  <span class="token punctuation">.</span>DDR_CLK_EDGE <span class="token punctuation">(</span>   <span class="token string">"OPPOSITE_EDGE"</span> <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 数据对齐参数，有 "OPPOSITE_EDGE", "SAME_EDGE" or "SAME_EDGE_PIPELINED" </span>
+  <span class="token punctuation">.</span>INIT_Q1      <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// Q1 的初始值: 1'b0 or 1'b1</span>
+  <span class="token punctuation">.</span>INIT_Q2      <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// Q2 的初始值: 1'b0 or 1'b1</span>
+  <span class="token punctuation">.</span>SRTYPE       <span class="token punctuation">(</span>   <span class="token string">"SYNC"</span>          <span class="token punctuation">)</span> <span class="token comment">// Set/Reset type: "SYNC" or "ASYNC" </span>
+<span class="token punctuation">)</span> IDDR_inst <span class="token punctuation">(</span>
+  <span class="token punctuation">.</span>Q1   <span class="token punctuation">(</span>   Q1  <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit 时钟上升沿输出的值</span>
+  <span class="token punctuation">.</span>Q2   <span class="token punctuation">(</span>   Q2  <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit 时钟下降沿输出的值</span>
+  <span class="token punctuation">.</span>C    <span class="token punctuation">(</span>   C   <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit 时钟输入</span>
+  <span class="token punctuation">.</span>CE   <span class="token punctuation">(</span>   CE  <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit 时钟使能信号</span>
+  <span class="token punctuation">.</span>D    <span class="token punctuation">(</span>   D   <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit DDR 信号输入</span>
+  <span class="token punctuation">.</span>R    <span class="token punctuation">(</span>   R   <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit 复位信号</span>
+  <span class="token punctuation">.</span>S    <span class="token punctuation">(</span>   S   <span class="token punctuation">)</span>   <span class="token comment">// 1-bit 置位信号，优先级低于复位信号</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h4><ul>
+<li><strong>DDR_CLK_EDGE</strong>：数据对齐方式，该参数将在下文介绍。</li>
+<li><strong>INIT_Q1&#x2F;Q2</strong>：初始化 Q1、Q2 的初始值。</li>
+<li><strong>SRTYPE</strong>：配置复位&#x2F;置位信号为同步&#x2F;异步。建议是使用同步复位驱动 R&#x2F;S，以避免亚稳态的产生。</li>
+</ul>
+<h4 id="端口介绍"><a href="#端口介绍" class="headerlink" title="端口介绍"></a>端口介绍</h4><ul>
+<li><strong>Q1&#x2F;Q2</strong>：数据的输出端口，Q1 输出时钟上升沿的数据，Q2 输出时钟下降沿的数据。</li>
+<li><strong>C</strong>：时钟的输入端口。</li>
+<li><strong>CE</strong>：时钟的使能信号，高电平有效。</li>
+<li><strong>D</strong>：DDR 信号的输入端口。</li>
+<li><strong>R&#x2F;S</strong>：复位&#x2F;置位信号，只能使用其中之一 (置1)，或全部不使用 (置 0)。复位信号使得 Q1&#x2F;Q2 输出 0，置位信号使得 Q1&#x2F;Q2 输出 1。</li>
+</ul>
+<h4 id="IDDR-数据对齐方式"><a href="#IDDR-数据对齐方式" class="headerlink" title="IDDR 数据对齐方式"></a>IDDR 数据对齐方式</h4><ul>
+<li><strong>OPPOSITE_EDGE</strong>：数据对齐的基本模式，该模式实现了基本的 DDR 功能，<strong>但是输出的数据 Q1&#x2F;Q2 在单个时钟周期内不能同时有效</strong>，对逻辑设计不友好，已经较少使用。下图为该模式下的时序图例。</li>
+<li><img src="/../../../img/posts/fpga_impl_interface/ethernet_impl/eth-02/IDDR_CLK_EDGE_OPPOSITE_EDGE.png" alt="IDDR_CLK_EDGE_OPPOSITE_EDGE"></li>
+<li><strong>SAME_EDGE</strong>：数据在同一个时钟沿提供给内部逻辑，能有效避免时序冲突。缺点是<strong>两个数据之间有一个时钟周期的延迟差异</strong>，在逻辑上需要处理 “错位”。下图为该模式下的时序图例。</li>
+<li><img src="/../../../img/posts/fpga_impl_interface/ethernet_impl/eth-02/IDDR_CLK_EDGE_SAME_EDGE.png" alt="IDDR_CLK_EDGE_SAME_EDGE"></li>
+<li><strong>SAME_EDGE_PIPELINED</strong>：完美的数据对齐，两个输出 Q1&#x2F;Q2 在<strong>相同的钟沿同时有效</strong>。代价则是引入了额外的延时，通常是 2 个时钟周期。下图为该模式下的时序图例。</li>
+<li><img src="/../../../img/posts/fpga_impl_interface/ethernet_impl/eth-02/IDDR_CLK_EDGE_SAME_EDGE_PIPELINED.png" alt="IDDR_CLK_EDGE_SAME_EDGE_PIPELINED"><br>通过时序图我们可以看到 <code>IDDR</code> 原语在 <code>SAME_EDGE_PIPELINED</code> 对齐模式下满足了我们的数据对齐要求，所以在这里我们使用 <code>SAME_EDGE_PIPELINED</code> 对齐方式。</li>
+</ul>
+<h3 id="ODDR-Output-Double-Data-Rate"><a href="#ODDR-Output-Double-Data-Rate" class="headerlink" title="ODDR (Output Double Data Rate)"></a>ODDR (Output Double Data Rate)</h3><p><code>ODDR</code> 的作用正好与 <code>IDDR</code> 是相反的，它通过在时钟的上升沿更新 <code>Q1/Q2</code> 的值，之后输出双边沿变化的 DDR 信号。</p>
+<p>下面是 ODDR 的语言模板</p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">ODDR #<span class="token punctuation">(</span>
+  <span class="token punctuation">.</span>DDR_CLK_EDGE <span class="token punctuation">(</span><span class="token string">"OPPOSITE_EDGE"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// "OPPOSITE_EDGE" or "SAME_EDGE" </span>
+  <span class="token punctuation">.</span>INIT         <span class="token punctuation">(</span><span class="token number">1'b0</span>           <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// Initial value of Q: 1'b0 or 1'b1</span>
+  <span class="token punctuation">.</span>SRTYPE       <span class="token punctuation">(</span><span class="token string">"SYNC"</span>         <span class="token punctuation">)</span>   <span class="token comment">// Set/Reset type: "SYNC" or "ASYNC" </span>
+<span class="token punctuation">)</span> ODDR_inst <span class="token punctuation">(</span>
+  <span class="token punctuation">.</span>Q            <span class="token punctuation">(</span>   Q           <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit DDR output</span>
+  <span class="token punctuation">.</span>C            <span class="token punctuation">(</span>   C           <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit clock input</span>
+  <span class="token punctuation">.</span>CE           <span class="token punctuation">(</span>   CE          <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit clock enable input</span>
+  <span class="token punctuation">.</span>D1           <span class="token punctuation">(</span>   D1          <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit data input (positive edge)</span>
+  <span class="token punctuation">.</span>D2           <span class="token punctuation">(</span>   D2          <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit data input (negative edge)</span>
+  <span class="token punctuation">.</span>R            <span class="token punctuation">(</span>   R           <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// 1-bit reset</span>
+  <span class="token punctuation">.</span>S            <span class="token punctuation">(</span>   S           <span class="token punctuation">)</span>   <span class="token comment">// 1-bit set</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="参数介绍-1"><a href="#参数介绍-1" class="headerlink" title="参数介绍"></a>参数介绍</h4><ul>
+<li><strong>DDR_CLK_EDGE</strong>：数据对齐方式，该参数将在下文介绍。</li>
+<li><strong>INIT</strong>：初始化端口 Q 的初始值。</li>
+<li><strong>SRTYPE</strong>：配置复位&#x2F;置位信号为同步&#x2F;异步。建议是使用同步复位驱动 R&#x2F;S，以避免亚稳态的产生。</li>
+</ul>
+<h4 id="端口介绍-1"><a href="#端口介绍-1" class="headerlink" title="端口介绍"></a>端口介绍</h4><ul>
+<li><strong>D1&#x2F;D2</strong>：数据的输入端口，D1 将会被输出到时钟的上升沿，D2 将会被输出到时钟的下降沿。</li>
+<li><strong>C</strong>：时钟的输入端口。</li>
+<li><strong>CE</strong>：时钟的使能信号，高电平有效。</li>
+<li><strong>Q</strong>：DDR 信号的输出端口。</li>
+<li><strong>R&#x2F;S</strong>：复位&#x2F;置位信号，只能使用其中之一 (置1)，或全部不使用 (置 0)。复位信号使得 Q1&#x2F;Q2 输出置 0，置位信号使得 Q1&#x2F;Q2 输出置 1。</li>
+</ul>
+<h4 id="ODDR-数据对齐方式"><a href="#ODDR-数据对齐方式" class="headerlink" title="ODDR 数据对齐方式"></a>ODDR 数据对齐方式</h4><ul>
+<li><strong>OPPOSITE_EDGE</strong>：在该模式下时钟的两个边沿都用于从 FPGA 逻辑捕获数据，从而实现两倍数据的吞吐量。这种方式要求内部逻辑<strong>必须提供两个数据流</strong>：D1 数据流<strong>与上升沿对齐</strong>，D2 数据流<strong>与下降沿对齐</strong>, (或提前半个周期来保持数据的稳定)。该方式通常要求使用下降沿的触发器来驱动，容易导致时序违例。该模式的时序图例如下。</li>
+<li><img src="/../../../img/posts/fpga_impl_interface/ethernet_impl/eth-02/ODDR_CLK_EDGE_OPPOSITE_EDGE.png" alt="ODDR_CLK_EDGE_OPPOSITE_EDGE"></li>
+<li><strong>SAME_EDGE</strong>：在该模式下，D1&#x2F;D2 都可以由上升沿触发的逻辑产生，DDR 内部会自动把 D2 对齐到下降沿进行输出，从而避免了跨边沿的约束，时序宽松，设计更加简单。该模式的图例如下。</li>
+<li><img src="/../../../img/posts/fpga_impl_interface/ethernet_impl/eth-02/ODDR_CLK_EDGE_SAME_EDGE.png" alt="ODDR_CLK_EDGE_SAME_EDGE"></li>
+</ul>
+<h3 id="TX-CTRL-的转换"><a href="#TX-CTRL-的转换" class="headerlink" title="TX_CTRL 的转换"></a>TX_CTRL 的转换</h3><p>在 RGMII 接口中，<code>TX_CTL</code>是一个集成了 GMII 接口中 <code>TX_EN</code>(发送使能) 和 <code>TX_ER</code>(发送错误) 功能的符合信号，通过将这两个信号编码在了同一个时钟周期内，传递了两个控制信息。</p>
+<p><code>TX_CTL</code> 采用的同样也是<strong>双边沿采样 (DDR)</strong>，配合发送时钟 <code>TXC</code> 一起传输。它的编码规则如下：</p>
+<ul>
+<li><strong>上升沿</strong>：传输 <code>TX_EN</code> 信号，表示该时钟周期内的数据是否有效。</li>
+<li><strong>下降沿</strong>：传输 <code>TX_EN ^ TX_ER</code>，即 <code>TX_EN ^ TX_ER</code> 的<strong>异或 (XOR) 结果</strong>。<br>这种编码方式定义了四种明确的状态：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">组合场景</th>
+<th align="center">GMII: TX_EN</th>
+<th align="center">GMII_TX_ER</th>
+<th align="center">RGMII: TX_CTL<br>(上升沿)</th>
+<th align="center">RGMII: TX_CTL<br>(下降沿)</th>
+<th align="center">状态描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">正常帧间隙<br>(空闲)</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">空闲状态。链路无数据传输，<code>TX_CTL</code>保持低电平</td>
+</tr>
+<tr>
+<td align="center">正常帧传输</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center"><strong>正常数据传输</strong>。表示当前时钟周期的 8 位数据全部有效</td>
+</tr>
+<tr>
+<td align="center"><strong>数据错误</strong></td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center"><strong>发送错误</strong>。指示当前传输帧中存在错误，通常由MAC层发起</td>
+</tr>
+<tr>
+<td align="center">保留&#x2F;异常</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">无效的组合，实际过程中用不到</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>在标准操作中，大多数应用只需要关注<code>正常帧传输</code>（上升沿&#x3D;1，下降沿&#x3D;1）和<code>数据错误</code>（上升沿&#x3D;1，下降沿&#x3D;0）这两种情况。</p>
+</blockquote>
+<p>关于 <code>TX_CTL</code> 信号的产生方式，代码如下：</p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog">ODDR #<span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>DDR_CLK_EDGE   <span class="token punctuation">(</span>   <span class="token string">"SAME_EDGE"</span>     <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  "OPPOSITE_EDGE" or "SAME_EDGE" </span>
+    <span class="token punctuation">.</span>INIT           <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  Initial value of Q: 1'b0 or 1'b1</span>
+    <span class="token punctuation">.</span>SRTYPE         <span class="token punctuation">(</span>   <span class="token string">"SYNC"</span>          <span class="token punctuation">)</span>   <span class="token comment">//  Set/Reset type: "SYNC" or "ASYNC" </span>
+<span class="token punctuation">)</span> rgmii_tdv_oddr_inst <span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>Q              <span class="token punctuation">(</span>   rgmii_tx_ctl    <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit DDR output</span>
+    <span class="token punctuation">.</span>C              <span class="token punctuation">(</span>   gmii_txc        <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit clock input</span>
+    <span class="token punctuation">.</span>CE             <span class="token punctuation">(</span>   <span class="token number">1'b1</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit clock enable input</span>
+    <span class="token punctuation">.</span>D1             <span class="token punctuation">(</span>   gmii_tx_en      <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit data input (positive edge)</span>
+    <span class="token punctuation">.</span>D2             <span class="token punctuation">(</span>   gmii_tx_en      <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit data input (negative edge) 实际上发送时 tx_ctl 信号一致都是拉高的，所以下降沿也接到了 gmii_tx_en 信号上。</span>
+    <span class="token punctuation">.</span>R              <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit reset</span>
+    <span class="token punctuation">.</span>S              <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span>   <span class="token comment">//  1-bit set</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="RGMII-接口与-GMII-接口互相转换的代码实现"><a href="#RGMII-接口与-GMII-接口互相转换的代码实现" class="headerlink" title="RGMII 接口与 GMII 接口互相转换的代码实现"></a>RGMII 接口与 GMII 接口互相转换的代码实现</h3><h4 id="GMII-转-RGMII"><a href="#GMII-转-RGMII" class="headerlink" title="GMII 转 RGMII"></a>GMII 转 RGMII</h4><p>首先来实现 GMII 转 RGMII 接口，这样 FPGA 侧的逻辑就可以通过 GMII 接口发送，再由该模块转换成 RGMII 接口的数据传递到 PHY 芯片了。</p>
+<pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> rgmii_tx <span class="token punctuation">(</span>
+    <span class="token comment">// GMII</span>
+    <span class="token keyword">input</span>   <span class="token keyword">wire</span>            gmii_txc        <span class="token punctuation">,</span>   <span class="token comment">//  [I] [   ] gmii rx clock</span>
+    <span class="token keyword">input</span>   <span class="token keyword">wire</span>            gmii_tx_en      <span class="token punctuation">,</span>   <span class="token comment">//  [I] [   ] gmii rx control</span>
+    <span class="token keyword">input</span>   <span class="token keyword">wire</span>    <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   gmii_txd        <span class="token punctuation">,</span>   <span class="token comment">//  [I] [7:0] gmii rx data</span>
+
+    <span class="token comment">// RGMII</span>
+    <span class="token keyword">output</span>  <span class="token keyword">wire</span>            rgmii_txc       <span class="token punctuation">,</span>   <span class="token comment">//  [O] [   ] rgmii rx clock</span>
+    <span class="token keyword">output</span>  <span class="token keyword">wire</span>            rgmii_tx_ctl    <span class="token punctuation">,</span>   <span class="token comment">//  [O] [   ] rgmii rx control</span>
+    <span class="token keyword">output</span>  <span class="token keyword">wire</span>    <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   rgmii_txd           <span class="token comment">//  [O] [3:0] rgmii rx data</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// RGMII 接口 tx_ctl 信号的产生</span>
+ODDR #<span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>DDR_CLK_EDGE   <span class="token punctuation">(</span>   <span class="token string">"SAME_EDGE"</span>     <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  "OPPOSITE_EDGE" or "SAME_EDGE" </span>
+    <span class="token punctuation">.</span>INIT           <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  Initial value of Q: 1'b0 or 1'b1</span>
+    <span class="token punctuation">.</span>SRTYPE         <span class="token punctuation">(</span>   <span class="token string">"SYNC"</span>          <span class="token punctuation">)</span>   <span class="token comment">//  Set/Reset type: "SYNC" or "ASYNC" </span>
+<span class="token punctuation">)</span> rgmii_tdv_oddr_inst <span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>Q              <span class="token punctuation">(</span>   rgmii_tx_ctl    <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit DDR output</span>
+    <span class="token punctuation">.</span>C              <span class="token punctuation">(</span>   gmii_txc        <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit clock input</span>
+    <span class="token punctuation">.</span>CE             <span class="token punctuation">(</span>   <span class="token number">1'b1</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit clock enable input</span>
+    <span class="token punctuation">.</span>D1             <span class="token punctuation">(</span>   gmii_tx_en      <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit data input (positive edge)</span>
+    <span class="token punctuation">.</span>D2             <span class="token punctuation">(</span>   gmii_tx_en      <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit data input (negative edge)</span>
+    <span class="token punctuation">.</span>R              <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit reset</span>
+    <span class="token punctuation">.</span>S              <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span>   <span class="token comment">//  1-bit set</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// generate 语句为每一条数据线都生成 ODDR 原语</span>
+<span class="token keyword">genvar</span> i<span class="token punctuation">;</span>
+<span class="token keyword">generate</span> 
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span> i<span class="token operator">&lt;</span><span class="token number">4</span><span class="token punctuation">;</span> i<span class="token operator">=</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> 
+    <span class="token keyword">begin</span><span class="token punctuation">:</span> txd_bus
+        ODDR #<span class="token punctuation">(</span>
+            <span class="token punctuation">.</span>DDR_CLK_EDGE  <span class="token punctuation">(</span>    <span class="token string">"SAME_EDGE"</span>     <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  "OPPOSITE_EDGE" or "SAME_EDGE" </span>
+            <span class="token punctuation">.</span>INIT          <span class="token punctuation">(</span>    <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  Initial value of Q: 1'b0 or 1'b1</span>
+            <span class="token punctuation">.</span>SRTYPE        <span class="token punctuation">(</span>    <span class="token string">"SYNC"</span>          <span class="token punctuation">)</span>   <span class="token comment">//  Set/Reset type: "SYNC" or "ASYNC" </span>
+        <span class="token punctuation">)</span> rgmii_txd_oddr_inst <span class="token punctuation">(</span>
+            <span class="token punctuation">.</span>Q             <span class="token punctuation">(</span>    rgmii_txd<span class="token punctuation">[</span>i<span class="token punctuation">]</span>    <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit DDR output</span>
+            <span class="token punctuation">.</span>C             <span class="token punctuation">(</span>    gmii_txc        <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit clock input</span>
+            <span class="token punctuation">.</span>CE            <span class="token punctuation">(</span>    <span class="token number">1'b1</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit clock enable input</span>
+            <span class="token punctuation">.</span>D1            <span class="token punctuation">(</span>    gmii_txd<span class="token punctuation">[</span>i  <span class="token punctuation">]</span>   <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit data input (positive edge)</span>
+            <span class="token punctuation">.</span>D2            <span class="token punctuation">(</span>    gmii_txd<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>   <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit data input (negative edge) 在 RGMII 接口的要求中，时钟的上升沿发送高 4 位，下降沿发送低 4 位。</span>
+            <span class="token punctuation">.</span>R             <span class="token punctuation">(</span>    <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit reset</span>
+            <span class="token punctuation">.</span>S             <span class="token punctuation">(</span>    <span class="token number">1'b0</span>            <span class="token punctuation">)</span>   <span class="token comment">//  1-bit set</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>   
+    <span class="token keyword">end</span>
+<span class="token keyword">endgenerate</span>
+
+<span class="token comment">// 使用 ODDR 原语生成 rgmii_txc 来匹配延迟</span>
+ODDR #<span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>DDR_CLK_EDGE   <span class="token punctuation">(</span>   <span class="token string">"SAME_EDGE"</span>     <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  "OPPOSITE_EDGE" or "SAME_EDGE" </span>
+    <span class="token punctuation">.</span>INIT           <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  Initial value of Q: 1'b0 or 1'b1</span>
+    <span class="token punctuation">.</span>SRTYPE         <span class="token punctuation">(</span>   <span class="token string">"SYNC"</span>          <span class="token punctuation">)</span>   <span class="token comment">//  Set/Reset type: "SYNC" or "ASYNC" </span>
+<span class="token punctuation">)</span> rgmii_clk_oddr_inst <span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>Q              <span class="token punctuation">(</span>   rgmii_txc       <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit DDR output</span>
+    <span class="token punctuation">.</span>C              <span class="token punctuation">(</span>   gmii_txc        <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit clock input</span>
+    <span class="token punctuation">.</span>CE             <span class="token punctuation">(</span>   <span class="token number">1'b1</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit clock enable input</span>
+    <span class="token punctuation">.</span>D1             <span class="token punctuation">(</span>   <span class="token number">1'b1</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit data input (positive edge)</span>
+    <span class="token punctuation">.</span>D2             <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit data input (negative edge)</span>
+    <span class="token punctuation">.</span>R              <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  1-bit reset</span>
+    <span class="token punctuation">.</span>S              <span class="token punctuation">(</span>   <span class="token number">1'b0</span>            <span class="token punctuation">)</span>   <span class="token comment">//  1-bit set</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="RGMII-转-GMII"><a href="#RGMII-转-GMII" class="headerlink" title="RGMII 转 GMII"></a>RGMII 转 GMII</h4><pre class="line-numbers language-verilog" data-language="verilog"><code class="language-verilog"><span class="token keyword">module</span> rgmii_rx <span class="token punctuation">(</span>
+    <span class="token comment">// RGMII</span>
+    <span class="token keyword">input</span>   <span class="token keyword">wire</span>            rgmii_rxc       <span class="token punctuation">,</span>   <span class="token comment">//  [I] [   ] rgmii rx clock</span>
+    <span class="token keyword">input</span>   <span class="token keyword">wire</span>            rgmii_rx_ctl    <span class="token punctuation">,</span>   <span class="token comment">//  [I] [   ] rgmii rx control</span>
+    <span class="token keyword">input</span>   <span class="token keyword">wire</span>    <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   rgmii_rxd       <span class="token punctuation">,</span>   <span class="token comment">//  [I] [3:0] rgmii rx data</span>
+
+    <span class="token comment">// GMII</span>
+    <span class="token keyword">output</span>  <span class="token keyword">wire</span>            gmii_rxc        <span class="token punctuation">,</span>   <span class="token comment">//  [O] [   ] gmii rx clock</span>
+    <span class="token keyword">output</span>  <span class="token keyword">wire</span>            gmii_rx_dv      <span class="token punctuation">,</span>   <span class="token comment">//  [O] [   ] gmii rx data valid</span>
+    <span class="token keyword">output</span>  <span class="token keyword">wire</span>    <span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   gmii_rxd            <span class="token comment">//  [O] [7:0] gmii rx data</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">wire</span>            rgmii_rxc_bufio     <span class="token punctuation">;</span>
+<span class="token keyword">wire</span>            rgmii_rxc_bufg      <span class="token punctuation">;</span>
+<span class="token keyword">wire</span>    <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">]</span>   gmii_rx_dv_t        <span class="token punctuation">;</span>
+<span class="token keyword">assign</span> gmii_rxc     <span class="token operator">=</span> rgmii_rxc_bufg                    <span class="token punctuation">;</span>
+<span class="token keyword">assign</span> gmii_rx_dv   <span class="token operator">=</span> gmii_rx_dv_t<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">&amp;</span> gmii_rx_dv_t<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">;</span>
+
+BUFG BUFG_inst <span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>I              <span class="token punctuation">(</span>   rgmii_rxc               <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>O              <span class="token punctuation">(</span>   rgmii_rxc_bufg          <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+BUFIO BUFIO_inst <span class="token punctuation">(</span>
+    <span class="token punctuation">.</span>I              <span class="token punctuation">(</span>   rgmii_rxc               <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span>O              <span class="token punctuation">(</span>   rgmii_rxc_bufio         <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">genvar</span> i<span class="token punctuation">;</span>
+<span class="token keyword">generate</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">4</span><span class="token punctuation">;</span> i <span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">begin</span><span class="token punctuation">:</span> rxd_bus
+        <span class="token comment">// input delay</span>
+        IDDR #<span class="token punctuation">(</span>
+            <span class="token punctuation">.</span>DDR_CLK_EDGE   <span class="token punctuation">(</span>   <span class="token string">"SAME_EDGE_PIPELINED"</span>   <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  "OPPOSITE_EDGE", "SAME_EDGE" or "SAME_EDGE_PIPELINED" </span>
+            <span class="token punctuation">.</span>INIT_Q1        <span class="token punctuation">(</span>   <span class="token number">1'b0</span>                    <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  Initial value of Q1: 1'b0 or 1'b1</span>
+            <span class="token punctuation">.</span>INIT_Q2        <span class="token punctuation">(</span>   <span class="token number">1'b0</span>                    <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">//  Initial value of Q2: 1'b0 or 1'b1</span>
+            <span class="token punctuation">.</span>SRTYPE         <span class="token punctuation">(</span>   <span class="token string">"SYNC"</span>                  <span class="token punctuation">)</span>   <span class="token comment">//  Set/Reset type: "SYNC" or "ASYNC" </span>
+        <span class="token punctuation">)</span> gmii_rxd_iddr <span class="token punctuation">(</span>
+            <span class="token punctuation">.</span>Q1             <span class="token punctuation">(</span>   gmii_rxd<span class="token punctuation">[</span>i  <span class="token punctuation">]</span>           <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// [O] 1-bit output for positive edge of clock</span>
+            <span class="token punctuation">.</span>Q2             <span class="token punctuation">(</span>   gmii_rxd<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">4</span><span class="token punctuation">]</span>           <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// [O] 1-bit output for negative edge of clock</span>
+            <span class="token punctuation">.</span>C              <span class="token punctuation">(</span>   rgmii_rxc_bufio         <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// [I] 1-bit clock input</span>
+            <span class="token punctuation">.</span>CE             <span class="token punctuation">(</span>   <span class="token number">1'b1</span>                    <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// [I] 1-bit clock enable input</span>
+            <span class="token punctuation">.</span>D              <span class="token punctuation">(</span>   rgmii_rxd<span class="token punctuation">[</span>i<span class="token punctuation">]</span>            <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// [I] 1-bit DDR data input</span>
+            <span class="token punctuation">.</span>R              <span class="token punctuation">(</span>   <span class="token number">1'b0</span>                    <span class="token punctuation">)</span><span class="token punctuation">,</span>  <span class="token comment">// [I] 1-bit reset</span>
+            <span class="token punctuation">.</span>S              <span class="token punctuation">(</span>   <span class="token number">1'b0</span>                    <span class="token punctuation">)</span>   <span class="token comment">// [I] 1-bit set</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">end</span>
+<span class="token keyword">endgenerate</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="/about/">TYH123</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://example.com/5992f3f76e72/">http://example.com/5992f3f76e72/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://example.com" target="_blank">硬件日记 | TYH123</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/FPGA/"><i class="fas fa-tag"></i>FPGA</a><a class="post-meta__tags" href="/tags/Verilog/"><i class="fas fa-tag"></i>Verilog</a><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/"><i class="fas fa-tag"></i>嵌入式</a><a class="post-meta__tags" href="/tags/%E7%BB%8F%E9%AA%8C%E5%88%86%E4%BA%AB/"><i class="fas fa-tag"></i>经验分享</a></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/6050e8406c5f/" title="ETH-01 初识以太网的硬件组成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">ETH-01 初识以太网的硬件组成</div></div><div class="info-2"><div class="info-item-1">以太网通信的硬件组成下面是一张硬件组成图例主要由 MAC (Media Access Control，媒体访问控制器) 和 PHY(Physical Layer，物理层接口) 两大部分组成。  MAC：通常由嵌入式设备（如单片机、FPGA 等）实现，负责数据的打包、寻址、CRC 校验等逻辑控制功能。 PHY：一般作为一颗独立的板载芯片，负责网络自协商、数据编解码等物理层相关工作。  通信设备之间通过 RJ45 接口进行连接。需要注意的是，接口本身不具备通信功能，仅起到连接信号的作用。 RGMII 和 GMII 接口RGMII 和 GMII 都是连接 MAC 层与 PHY 层的芯片间接口，主要区别在于引脚数量和传输效率。 GMII (Gigabit Media Independent Interface)GMII 是千兆以太网接口的完整实现，也是早期 MII 接口的升级版（MII 最高支持 100Mbps）。  数据宽度：8 位（发送和接收各 8 条数据线） 时钟频率： 1000 Mbps 模式：125 MHz 100 Mbps 模式：25 MHz 10 Mbps 模式：2.5 M...</div></div></div></a><a class="pagination-related" href="/009751d79fad/" title="ETH-03 以太网帧结构介绍以及 Verilog 实现代码"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">ETH-03 以太网帧结构介绍以及 Verilog 实现代码</div></div><div class="info-2"><div class="info-item-1">什么是以太网帧以太网帧是指在网络中传输数据的基本单位。以太网帧按照一定的格式组成了以太网数据包。简单来讲，它类似于 “数据包裹(就像快递一样)”，包裹中包含了 “寄件人 (发送方 MAC 地址)”、”收件人 (接收方 MAC 地址)” 和 “包裹内容 (有效数据)”。以太网帧指的就是这个数据包本身。  理解以太网帧的组成是我们开始学习以太网 ARP、ICMP、UDP 等上层协议的基础。 以太网帧的组成 (格式)数据格式如下图所示。  前导码 (Preamble)：固定的 7 字节 0x55，二进制表现为 0 和 1 交替。 帧起始界定符 (SFD)：全称：Start Frame Delimiter。固定的 1 字节 0xD5，二进制表现为 1101_1010 目的 MAC 地址：即接收端的物理 MAC 地址，占用 6 个字节，MAC 地址从应用上可分为以下三种类型 单播地址：第一个字节的最低位为 0，比如 00:00:00:11:11:11一般用于标志唯一的设备 组播地址：第一个字节的最低位为 1，比如01:00:00:11:11:11一般用于标志同属一组的多个设备 广播地址：所...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/cac30ace99fd/" title="ETH-04 ARP 通信协议简介及实现代码"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2026-05-15</div><div class="info-item-2">ETH-04 ARP 通信协议简介及实现代码</div></div><div class="info-2"><div class="info-item-1">ARP 协议简介ARP（Address Resolution Protocol，地址解析协议） 是一种根据 IP 地址 (逻辑地址) 获取 MAC 地址 (物理地址) 的 TCP&#x2F;IP 协议。 在以太网环境中，设备之间的通信依赖于 MAC 地址，但上层应用通常只知道目标设备的 IP 地址。ARP 协议通过 “一问一答” 的机制，解决了 “已知 IP 地址，如何找到对应 MAC 地址“ 的问题，确保数据能够正确封装并送达目标设备。  其工作过程简述如下：主机 A 发送数据时，按照以太网帧格式封装，但将目标 MAC 地址设置为广播地址（FF:FF:FF:FF:FF:FF）。这样，局域网内所有主机都会收到该数据包。只有 IP 地址与目标匹配的主机 B 会响应，将自己的 MAC 地址发送给主机 A，从而完成地址解析。其他非对应 IP 的主机则自动忽略该广播包。  补充说明：TCP&#x2F;IP 协议簇TCP&#x2F;IP 是互联网的核心通信协议，它并非单一的协议，而是一个协议簇 (协议集合) ，定义了设备之间如何联网和通信。其名称来源于其中最著名的两个协议：TCP (传输控...</div></div></div></a><a class="pagination-related" href="/6050e8406c5f/" title="ETH-01 初识以太网的硬件组成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2026-05-15</div><div class="info-item-2">ETH-01 初识以太网的硬件组成</div></div><div class="info-2"><div class="info-item-1">以太网通信的硬件组成下面是一张硬件组成图例主要由 MAC (Media Access Control，媒体访问控制器) 和 PHY(Physical Layer，物理层接口) 两大部分组成。  MAC：通常由嵌入式设备（如单片机、FPGA 等）实现，负责数据的打包、寻址、CRC 校验等逻辑控制功能。 PHY：一般作为一颗独立的板载芯片，负责网络自协商、数据编解码等物理层相关工作。  通信设备之间通过 RJ45 接口进行连接。需要注意的是，接口本身不具备通信功能，仅起到连接信号的作用。 RGMII 和 GMII 接口RGMII 和 GMII 都是连接 MAC 层与 PHY 层的芯片间接口，主要区别在于引脚数量和传输效率。 GMII (Gigabit Media Independent Interface)GMII 是千兆以太网接口的完整实现，也是早期 MII 接口的升级版（MII 最高支持 100Mbps）。  数据宽度：8 位（发送和接收各 8 条数据线） 时钟频率： 1000 Mbps 模式：125 MHz 100 Mbps 模式：25 MHz 10 Mbps 模式：2.5 M...</div></div></div></a><a class="pagination-related" href="/abe366f75b2d/" title="FPGA SPI 通信"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2026-05-15</div><div class="info-item-2">FPGA SPI 通信</div></div><div class="info-2"><div class="info-item-1">简介在之前讲 FPGA 串口通信 的时候，有讲到过串口通信是异步通信，而 SPI 通信是一个典型的同步通信。它需要主设备驱动时钟信号线，所有数据位的发送和接收都在时钟的边沿触发，收发双方不再需要各自校准波特率，也不用起始位&#x2F;停止位等操作，因此相比于异步的串口通信，这种通信方式效率更高，时序更稳定。缺点则是占用了更多的管脚，在 PCB 的布局布线上相比于串口复杂一些。 标准 SPI(四线式) 接口标准 SPI 接口采用的是四线式接线方式，有 SCLK、MOSI、MISO 以及 SS#&#x2F;CS# 四根信号线。这种方式的 SPI 接口支持全双工通信，即同时接收和发送。  SCK&#x2F;SCLK：SPI 的串行时钟，由主设备 (Master) 驱动。 MOSI：全称：Master Out Slave In，是标准 SPI 的一根数据线，由主机输出，从机输入 MISO：全称：Master In Slave Out，是标准 SPI 的一根数据线，由从机输出，主机输入 SS#&#x2F;CS#：全称：Slave Select&#x2F;Chip Select 由主机驱动的...</div></div></div></a><a class="pagination-related" href="/b19350ca7d50/" title="FPGA 串口通信"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2026-05-15</div><div class="info-item-2">FPGA 串口通信</div></div><div class="info-2"><div class="info-item-1">简介串口，即 UART(全称 Universal Asynchronous Receiver&#x2F;Transmitter，中文正式名称为通用异步收发器)，是采用串行通信方式的接口。串行通信将字节数据按比特在一条数据线上逐个传输，其特点是线路简单，但传输速度较慢。 对于传输速度要求不高的场合，如工业控制、嵌入式开发等领域，串口通信是常客。 串口通信方式UART 通信需要两根信号线来实现，分别是 TXD 和 RXD。TXD 用来发送数据；RXD 用来接收数据。在发送数据时，将并行的 8 比特数据按比特在一条数据线上逐个传输。在接收数据时，将接收到的串行数据按比特解串成并行数据。发送时低位先发。 需要注意的是，两个串口设备通信时，不能把各自的 TXD 和 RXD 直接对应相连（即 TXD 接 TXD、RXD 接 RXD），而应该交叉连接：一个设备的 TXD 接另一个设备的 RXD，同时这个设备的 RXD 接另一个设备的 TXD。具体连接方式如下图所示。 串口通信数据格式如下图所示，下图为一个字节数据 (字符帧) 的传输格式  起始位：标志着一帧数据的开始，该位固定为 0 数据位：...</div></div></div></a><a class="pagination-related" href="/009751d79fad/" title="ETH-03 以太网帧结构介绍以及 Verilog 实现代码"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2026-05-15</div><div class="info-item-2">ETH-03 以太网帧结构介绍以及 Verilog 实现代码</div></div><div class="info-2"><div class="info-item-1">什么是以太网帧以太网帧是指在网络中传输数据的基本单位。以太网帧按照一定的格式组成了以太网数据包。简单来讲，它类似于 “数据包裹(就像快递一样)”，包裹中包含了 “寄件人 (发送方 MAC 地址)”、”收件人 (接收方 MAC 地址)” 和 “包裹内容 (有效数据)”。以太网帧指的就是这个数据包本身。  理解以太网帧的组成是我们开始学习以太网 ARP、ICMP、UDP 等上层协议的基础。 以太网帧的组成 (格式)数据格式如下图所示。  前导码 (Preamble)：固定的 7 字节 0x55，二进制表现为 0 和 1 交替。 帧起始界定符 (SFD)：全称：Start Frame Delimiter。固定的 1 字节 0xD5，二进制表现为 1101_1010 目的 MAC 地址：即接收端的物理 MAC 地址，占用 6 个字节，MAC 地址从应用上可分为以下三种类型 单播地址：第一个字节的最低位为 0，比如 00:00:00:11:11:11一般用于标志唯一的设备 组播地址：第一个字节的最低位为 1，比如01:00:00:11:11:11一般用于标志同属一组的多个设备 广播地址：所...</div></div></div></a><a class="pagination-related" href="/90534f39d2d5/" title="FPGA 实现以太网 PHY 芯片配置接口 —— MDIO 的学习与应用"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="fas fa-history fa-fw"></i> 2026-05-15</div><div class="info-item-2">FPGA 实现以太网 PHY 芯片配置接口 —— MDIO 的学习与应用</div></div><div class="info-2"><div class="info-item-1">前言MDIO 接口是配置以太网 PHY 芯片片上寄存器的一种通用接口，几乎所有的以太网 PHY 芯片使用的都是 MDIO 接口来配置寄存器。 接线方式 ETH_MDC: 时钟信号线，频率不大于 12.5MHz ETH_MDIO: 双向数据线主从式、半双工通信，所有通信都是由主设备发起，从设备被动响应（和 IIC 类似）  数据帧格式读数据   Preamble ST OP PHYAD REGAD TA DATA IDLE    1…1 01 10 AAAAA RRRRR Z0 DDDDDDDDDDDDDDDD Z    Preamble: 前导码，由主设备发送的连续的 32 个逻辑 1，用于与从设备建立同步 ST: 数据帧的开始，固定为 2位数据 01，代表有效数据的起始位置 OP: 操作码，定义操作类型，01：写操作，10：读操作 PHYAD：5 位 PHY 芯片地址，用于选择总线上的目标 PHY 芯片 REGAD：片上寄存器地址 TA：转向域，2 位的空闲周期，用于读写方向切换；写操作：主设备持续驱动总线输出 “10”; 读操作：第一个时钟周期 MDIO 程高阻态 (主、从设...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">TYH123</div><div class="author-info-description">分享单片机、FPGA 开发，和 PCB 设计经验，记录嵌入式开发路上的成长点滴。</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>关注我的 github</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/xxxxx" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://gitee.com/xxxxx" target="_blank" title="Gitee"><i class="fa-brands fa-gitee" style="color: #1890ff;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage">0%</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDDR-Input-Double-Data-Rate"><span class="toc-number">2.</span> <span class="toc-text">IDDR (Input Double Data Rate)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.1.</span> <span class="toc-text">参数介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E4%BB%8B%E7%BB%8D"><span class="toc-number">2.2.</span> <span class="toc-text">端口介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#IDDR-%E6%95%B0%E6%8D%AE%E5%AF%B9%E9%BD%90%E6%96%B9%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">IDDR 数据对齐方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ODDR-Output-Double-Data-Rate"><span class="toc-number">3.</span> <span class="toc-text">ODDR (Output Double Data Rate)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E4%BB%8B%E7%BB%8D-1"><span class="toc-number">3.1.</span> <span class="toc-text">参数介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AB%AF%E5%8F%A3%E4%BB%8B%E7%BB%8D-1"><span class="toc-number">3.2.</span> <span class="toc-text">端口介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ODDR-%E6%95%B0%E6%8D%AE%E5%AF%B9%E9%BD%90%E6%96%B9%E5%BC%8F"><span class="toc-number">3.3.</span> <span class="toc-text">ODDR 数据对齐方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TX-CTRL-%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">4.</span> <span class="toc-text">TX_CTRL 的转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RGMII-%E6%8E%A5%E5%8F%A3%E4%B8%8E-GMII-%E6%8E%A5%E5%8F%A3%E4%BA%92%E7%9B%B8%E8%BD%AC%E6%8D%A2%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">5.</span> <span class="toc-text">RGMII 接口与 GMII 接口互相转换的代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GMII-%E8%BD%AC-RGMII"><span class="toc-number">5.1.</span> <span class="toc-text">GMII 转 RGMII</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RGMII-%E8%BD%AC-GMII"><span class="toc-number">5.2.</span> <span class="toc-text">RGMII 转 GMII</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/12867751b0b0/" title="将字库数据烧录到 Flash 芯片内的方法">将字库数据烧录到 Flash 芯片内的方法</a><time datetime="2026-05-15T11:02:08.722Z" title="更新于 2026-05-15 19:02:08">2026-05-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/cac30ace99fd/" title="ETH-04 ARP 通信协议简介及实现代码">ETH-04 ARP 通信协议简介及实现代码</a><time datetime="2026-05-15T11:01:00.452Z" title="更新于 2026-05-15 19:01:00">2026-05-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/009751d79fad/" title="ETH-03 以太网帧结构介绍以及 Verilog 实现代码">ETH-03 以太网帧结构介绍以及 Verilog 实现代码</a><time datetime="2026-05-15T11:01:00.450Z" title="更新于 2026-05-15 19:01:00">2026-05-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/5992f3f76e72/" title="ETH-02 RGMII 接口和 GMII 接口的互相转换">ETH-02 RGMII 接口和 GMII 接口的互相转换</a><time datetime="2026-05-15T11:01:00.446Z" title="更新于 2026-05-15 19:01:00">2026-05-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/6050e8406c5f/" title="ETH-01 初识以太网的硬件组成">ETH-01 初识以太网的硬件组成</a><time datetime="2026-05-15T11:01:00.441Z" title="更新于 2026-05-15 19:01:00">2026-05-15</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By TYH123</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.9/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const parseViewBox = viewBox => {
+    if (!viewBox) return null
+    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
+    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
+    return parts
+  }
+
+  const getSvgViewBox = svg => {
+    const attr = parseViewBox(svg.getAttribute('viewBox'))
+    if (attr) return attr
+
+    // Fallback: use bbox to build a viewBox
+    try {
+      const bbox = svg.getBBox()
+      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
+    } catch (e) {
+      // getBBox may fail on some edge cases; ignore
+    }
+
+    const w = Number(svg.getAttribute('width')) || 0
+    const h = Number(svg.getAttribute('height')) || 0
+    if (w > 0 && h > 0) return [0, 0, w, h]
+    return [0, 0, 100, 100]
+  }
+
+  const setSvgViewBox = (svg, vb) => {
+    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
+  }
+
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
+
+  const openSvgInNewTab = ({ source, initViewBox }) => {
+    const getClonedSvg = () => {
+      if (typeof source === 'string') {
+        const template = document.createElement('template')
+        template.innerHTML = source.trim()
+        const svg = template.content.querySelector('svg')
+        return svg ? svg.cloneNode(true) : null
+      }
+      if (source && typeof source.cloneNode === 'function') {
+        return source.cloneNode(true)
+      }
+      return null
+    }
+
+    const clone = getClonedSvg()
+    if (!clone) return
+    if (initViewBox && initViewBox.length === 4) {
+      clone.setAttribute('viewBox', initViewBox.join(' '))
+    }
+    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
+    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
+      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+    }
+    // inject background to match current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
+    if (!clone.style.background) clone.style.background = bg
+
+    const serializer = new XMLSerializer()
+    const svgSource = serializer.serializeToString(clone)
+    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
+      <style>
+        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
+        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
+      </style>
+      </head><body>${svgSource}</body></html>`
+    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    window.open(url, '_blank', 'noopener')
+    setTimeout(() => URL.revokeObjectURL(url), 30000)
+  }
+
+  const attachMermaidViewerButton = wrap => {
+    let btn = wrap.querySelector('.mermaid-open-btn')
+    if (!btn) {
+      btn = document.createElement('button')
+      btn.type = 'button'
+      btn.className = 'mermaid-open-btn'
+      wrap.appendChild(btn)
+    }
+
+    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
+
+    if (!btn.__mermaidViewerBound) {
+      btn.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
+        if (!svg) return
+        const initViewBox = wrap.__mermaidInitViewBox
+        if (typeof svg === 'string') {
+          openSvgInNewTab({ source: svg, initViewBox })
+          return
+        }
+        openSvgInNewTab({ source: svg, initViewBox })
+      })
+      btn.__mermaidViewerBound = true
+    }
+  }
+
+  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
+  const zoomAtPoint = (vb, factor, px, py) => {
+    const w = vb[2] * factor
+    const h = vb[3] * factor
+    const nx = px - (px - vb[0]) * factor
+    const ny = py - (py - vb[1]) * factor
+    return [nx, ny, w, h]
+  }
+
+  const initMermaidGestures = wrap => {
+    const svg = wrap.querySelector('svg')
+    if (!svg) return
+
+    // Ensure viewBox exists so gestures always work
+    const initVb = getSvgViewBox(svg)
+    wrap.__mermaidInitViewBox = initVb
+    wrap.__mermaidCurViewBox = initVb.slice()
+    setSvgViewBox(svg, initVb)
+
+    // Avoid binding multiple times on themeChange/pjax
+    if (wrap.__mermaidGestureBound) return
+    wrap.__mermaidGestureBound = true
+
+    // Helper: map client (viewport) coordinate -> viewBox coordinate
+    const clientToViewBox = (clientX, clientY) => {
+      const rect = svg.getBoundingClientRect()
+      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
+      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
+      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
+      return { x, y, rect, vb }
+    }
+
+    const state = {
+      pointers: new Map(),
+      startVb: null,
+      startDist: 0,
+      startCenter: null
+    }
+
+    const clampVb = vb => {
+      const init = wrap.__mermaidInitViewBox || vb
+      const minW = init[2] * 0.1
+      const maxW = init[2] * 10
+      const minH = init[3] * 0.1
+      const maxH = init[3] * 10
+      vb[2] = clamp(vb[2], minW, maxW)
+      vb[3] = clamp(vb[3], minH, maxH)
+      return vb
+    }
+
+    const setCurVb = vb => {
+      vb = clampVb(vb)
+      wrap.__mermaidCurViewBox = vb
+      setSvgViewBox(svg, vb)
+    }
+
+    const onPointerDown = e => {
+      // Allow only primary button for mouse
+      if (e.pointerType === 'mouse' && e.button !== 0) return
+      svg.setPointerCapture(e.pointerId)
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      if (state.pointers.size === 1) {
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      } else if (state.pointers.size === 2) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        state.startDist = Math.hypot(dx, dy)
+        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
+      }
+    }
+
+    const onPointerMove = e => {
+      if (!state.pointers.has(e.pointerId)) return
+      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+
+      // Pan with 1 pointer
+      if (state.pointers.size === 1 && state.startVb) {
+        const p = [...state.pointers.values()][0]
+        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
+        // movementX/Y unreliable on touch, compute from stored last position
+        const last = wrap.__mermaidLastSinglePointer || p
+        const dxClient = p.x - last.x
+        const dyClient = p.y - last.y
+        wrap.__mermaidLastSinglePointer = p
+
+        const { rect } = clientToViewBox(p.x, p.y)
+        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+        const dx = dxClient * (vb[2] / rect.width)
+        const dy = dyClient * (vb[3] / rect.height)
+        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
+        return
+      }
+
+      // Pinch zoom with 2 pointers
+      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
+        const pts = [...state.pointers.values()]
+        const dx = pts[0].x - pts[1].x
+        const dy = pts[0].y - pts[1].y
+        const dist = Math.hypot(dx, dy)
+        if (!dist) return
+        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
+
+        const cx = (pts[0].x + pts[1].x) / 2
+        const cy = (pts[0].y + pts[1].y) / 2
+        const centerClient = { x: cx, y: cy }
+
+        const pxy = clientToViewBox(centerClient.x, centerClient.y)
+        const cpx = pxy.x
+        const cpy = pxy.y
+
+        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
+        setCurVb(vb)
+      }
+    }
+
+    const onPointerUpOrCancel = e => {
+      state.pointers.delete(e.pointerId)
+      if (state.pointers.size === 0) {
+        state.startVb = null
+        state.startDist = 0
+        state.startCenter = null
+        wrap.__mermaidLastSinglePointer = null
+      } else if (state.pointers.size === 1) {
+        // reset single pointer baseline to avoid jump
+        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
+      }
+    }
+
+    // Wheel zoom (mouse/trackpad)
+    const onWheel = e => {
+      // ctrlKey on mac trackpad pinch; we treat both as zoom
+      e.preventDefault()
+      const delta = e.deltaY
+      const zoomFactor = delta > 0 ? 1.1 : 0.9
+      const { x, y } = clientToViewBox(e.clientX, e.clientY)
+      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
+      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
+    }
+
+    const onDblClick = () => {
+      const init = wrap.__mermaidInitViewBox
+      if (!init) return
+      wrap.__mermaidCurViewBox = init.slice()
+      setSvgViewBox(svg, init)
+    }
+
+    svg.addEventListener('pointerdown', onPointerDown)
+    svg.addEventListener('pointermove', onPointerMove)
+    svg.addEventListener('pointerup', onPointerUpOrCancel)
+    svg.addEventListener('pointercancel', onPointerUpOrCancel)
+    svg.addEventListener('wheel', onWheel, { passive: false })
+    svg.addEventListener('dblclick', onDblClick)
+  }
+
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+
+      // Clear old render (themeChange/pjax will rerun)
+      const oldSvg = item.querySelector('svg')
+      if (oldSvg) oldSvg.remove()
+      item.__mermaidGestureBound = false
+
+      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
+      if (!config.theme) {
+        config.theme = theme
+      }
+      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+        if (true) initMermaidGestures(item)
+        item.__mermaidOriginalSvg = svg
+        if (false) attachMermaidViewerButton(item)
+      }
+
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('/js/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
