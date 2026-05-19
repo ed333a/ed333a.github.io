@@ -20,9 +20,9 @@
       
         <tags>
             
-            <tag> 经验分享 </tag>
-            
             <tag> hexo </tag>
+            
+            <tag> 经验分享 </tag>
             
             <tag> web </tag>
             
@@ -34,8 +34,8 @@
     
     <entry>
       <title>将字库数据烧录到 Flash 芯片内的方法</title>
-      <link href="/49629881ad63/"/>
-      <url>/49629881ad63/</url>
+      <link href="/554599623165/"/>
+      <url>/554599623165/</url>
       
         <content type="html"><![CDATA[<blockquote><p>本文旨在提供思路和方法，同时作为一篇开发笔记分享给大家。本文中所有的软件资源、代码等可以在 Gitee 仓库: <a href="">Stm32_HZK</a> 中获取。</p><p>本文中所使用的 Flash 芯片型号为 华邦(WINBOND) 生产的 W25Q 系列的芯片，它是一款<strong>非易失性存储芯片</strong>，通信方式支持有 SPI, Dual SPI, QUAD SPI 这三种方式。 支持的最大时钟频率为  133MHz。</p></blockquote><h2 id="GBK-汉字字符集的生成"><a href="#GBK-汉字字符集的生成" class="headerlink" title="GBK 汉字字符集的生成"></a>GBK 汉字字符集的生成</h2><h3 id="什么是-GBK-汉字字符集？"><a href="#什么是-GBK-汉字字符集？" class="headerlink" title="什么是 GBK 汉字字符集？"></a>什么是 GBK 汉字字符集？</h3><p><strong>GBK 汉字字符集</strong> 是一种用于表示中文字符的字符编码。它包含了所有的中文字符，每个中文字符都有一个唯一的编码值。</p><div class="note info flat"><p>通俗的来讲就是所有汉字的一个集合，这个集合按照先后顺序被排列组合起来，就形成了 GBK 汉字字符集。</p></div><h3 id="GBK-字符集的编码格式"><a href="#GBK-字符集的编码格式" class="headerlink" title="GBK 字符集的编码格式"></a>GBK 字符集的编码格式</h3><p>与 <a href="https://ascii.org.cn/">ASCII 码</a> 不同的是，GBK 编码<strong>是一个 16 位的编码</strong>，每个汉字<strong>需要 2 个字节</strong>来表示。GBK 编码的双字节结构，具体分为: </p><ul><li><strong>区码 （高字节）</strong>: 范围 0x81-0xFE</li><li><strong>位码 （低字节）</strong>: 范围 0x40-0xFE（0x7F 除外）</li></ul><p>所以，经过计算后可以得出<strong>GBK 理论编码位置有 23940 个</strong>。计算过程如下: </p><ul><li><strong>区码（高字节）长度</strong>: <code>0x81-0xFE+0x01=0x7E</code>，加上 1 则是算上起始位置。</li><li><strong>位码（低字节）长度</strong>: <strong>又称为每个区的字码数量</strong> <code>0x40-0xFE-0x01+0x01=0xBE</code>，减去的 1 是被除掉的 0x7F，加上的 1 则是算上起始位置。</li><li>所以总的可用的编码位置一共有: <code>0x7E*0xBE=0x5D84</code> 个，十进制下为 <code>23940</code> 个。</li></ul><blockquote><p>举个例子说明为什么计算结果要加 1，比如有 <code>2 3 4 5 6</code> 这几个数字，那么数字的数量就是 <code>(6-2)+1=5</code>，小学数学问题，但是防止不懂还是提一下(doge)</p></blockquote><h3 id="为什么要生成它？"><a href="#为什么要生成它？" class="headerlink" title="为什么要生成它？"></a>为什么要生成它？</h3><p>在这之前，我尝试在网络上搜索现有的 GBK 汉字字符集，但是搜索到的都是已经收录到 GBK 字符集的字库文件，而我需要的是一个完整的 GBK 字符集文件，包含所有理论上的中文字符。所以我就打算自己生成一个 GBK 汉字字符集文件。</p><h3 id="生成-GBK-汉字字符集"><a href="#生成-GBK-汉字字符集" class="headerlink" title="生成 GBK 汉字字符集"></a>生成 GBK 汉字字符集</h3><p>本次使用 python 生成 GBK 汉字字符集。代码如下: </p><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 生成的索引文件会被保存到当前目录下的 GBK_INDEX.txt 中</span><span class="token builtin">file</span> <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"GBK_INDEX.txt"</span><span class="token punctuation">,</span> <span class="token string">"wb"</span><span class="token punctuation">)</span>highByte <span class="token operator">=</span> <span class="token number">0x81</span> <span class="token comment"># 高字节起始位置</span>lowByte <span class="token operator">=</span> <span class="token number">0x40</span>  <span class="token comment"># 低字节起始位置</span><span class="token comment"># 文件头写入 ascii 码</span><span class="token comment"># 也可以把这部分放到下一部分中，在文件尾写入 ascii 码</span>asciiCode <span class="token operator">=</span> <span class="token number">20</span> <span class="token comment"># ascii 码起始字符位置</span><span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>    asciiCode <span class="token operator">+=</span> <span class="token number">1</span>    <span class="token keyword">if</span> asciiCode <span class="token operator">></span> <span class="token number">0x7E</span><span class="token punctuation">:</span> <span class="token comment"># 终止字符位置为 0x7E</span>        <span class="token keyword">break</span>    <span class="token builtin">file</span><span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token builtin">bytes</span><span class="token punctuation">(</span><span class="token punctuation">[</span>asciiCode<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>    <span class="token comment"># 跳过 0x7F（GBK 编码中该位码无效）</span>    <span class="token keyword">if</span> lowByte <span class="token operator">==</span> <span class="token number">0x7F</span><span class="token punctuation">:</span>        lowByte <span class="token operator">+=</span> <span class="token number">1</span>        <span class="token keyword">continue</span>        <span class="token comment"># 写入当前高低字节</span>    <span class="token builtin">file</span><span class="token punctuation">.</span>write<span class="token punctuation">(</span><span class="token builtin">bytes</span><span class="token punctuation">(</span><span class="token punctuation">[</span>highByte<span class="token punctuation">,</span> lowByte<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token comment"># 低位字节自增</span>    lowByte <span class="token operator">+=</span> <span class="token number">1</span>    <span class="token comment"># 检查低位是否溢出，即达到最大值 0xFE</span>    <span class="token keyword">if</span> lowByte <span class="token operator">></span> <span class="token number">0xFE</span><span class="token punctuation">:</span>        <span class="token comment"># 重置低位并增加高位</span>        lowByte <span class="token operator">=</span> <span class="token number">0x40</span>        highByte <span class="token operator">+=</span> <span class="token number">1</span>        <span class="token comment"># 检查高位是否达到终止条件</span>        <span class="token keyword">if</span> highByte <span class="token operator">></span> <span class="token number">0xFE</span><span class="token punctuation">:</span>            <span class="token keyword">break</span><span class="token builtin">file</span><span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><!-- ### 避免存储空间的浪费实际上，有些编码值在经过取模软键取模之后，其中的字模数据表现为空白数据 0x00，为什么会出现这种情况？#### 问题分析这 **23940 个理论编码位置**中，实际收录的汉字和符号一共是 21003{% ref 1 来源于百度百科 https://baike.baidu.com/item/GBK字库 %} 个，所以还有 `23940-21003=2937` 个编码位置是空白编码，在这些编码上是没有汉字收录的，取模软件会为这些空白编码生成空白的字模数据 0x00。白白占用 Flash 的存储空间。以 16x16 的点阵字库为例，每个汉字字模占 32 个字节，23940 个位置全部占满，那么需要的 Flash 存储空间就是 `23940*32=766080` 字节。大约需要 766KB 的 Flash 存储空间。但实际上，除去空白编码，实际需要的 Flash 存储空间就是 `21003*32=672096` 字节。大约需要 672KB 的 Flash 存储空间。浪费了将近 `766-672=94KB` 的 Flash 存储空间。对于 32x32 的点阵字库，空间浪费现象会更严重。 --><h2 id="生成点阵字库"><a href="#生成点阵字库" class="headerlink" title="生成点阵字库"></a>生成点阵字库</h2><p>将我们生成好的 GBK 汉字字符集导入到 PCtoLCD2002 软件中去生成我们的点阵字库数据就可以了。图中配置的是每个中文字符的字模数据为 16x16 大小，占用 32 个字节。</p><ul><li>首先打开 PCtoLCD2002 软件，对应的软件资源位于 <a href="https://gitee.com/Stm32_HZK/Stm32_HZK">Stm32/_HZK</a> 仓库中 <code>PCtoLCD2002 完美版</code> 文件夹内。</li><li>点击 <code>导入大量文本</code> 按钮，选择 <code>打开文本文件</code></li><li>选择我们之前生成的 GBK_INDEX.txt 文件</li><li>点击 <code>开始生成</code> 按钮，选择好保存路径后，等待软件生成完成。</li></ul><p><img src="/../../img/posts/STM32/01/generate_index_data.gif" alt="generate_index_data"></p><h2 id="计算汉字字模数据的偏移地址"><a href="#计算汉字字模数据的偏移地址" class="headerlink" title="计算汉字字模数据的偏移地址"></a>计算汉字字模数据的偏移地址</h2><p>在这之前，我们已经生成了<strong>连续的 <code>23940</code> 个 GBK 编码的中文字符</strong>，并且对每个字符都取模生成了对应的字模数据，每个中文字符的字模数据都是 32 个字节。所以在生成的字库数据中，每个<strong>汉字的字模数据都是连续存储的</strong>，我们需要根据汉字的编码值来计算出它的字模数据在 Flash 中的偏移地址。</p><p>以汉字 “啊” 为例子，它的 GBK 编码为 <code>0xB0A1</code>，根据 GBK 编码的规则，计算过程如下：</p><ul><li>它的区码为 <code>0xB0</code>，由于区码的起始位置为 <code>0x81</code>，<strong>所以区码偏移为 <code>0xB0-0x81=0x2F</code></strong>。</li><li>它的位码为 <code>0xA1</code>，由于位码的起始位置为 <code>0x40</code>，并且它的值大于了 <code>0x7F</code>，要在最终的结果上减去 1，<strong>所以位码偏移为 <code>0xA1-0x40-0x01=0x60</code></strong>。</li><li>将汉字的<strong>区码偏移和位码长度</strong>相乘，再加上位码偏移，就得到了<strong>汉字偏移量</strong>：<code>0x2F*0xBE+0x60=0x2342</code>。</li><li>再将<strong>汉字偏移量</strong>乘以每个中文字符的字模数据大小 32 字节，就得到了<strong>汉字字模数据在 Flash 中的偏移地址</strong>：<code>0x2342*0x20=0x046840</code>。</li></ul><p>下面用一张流程图来展示计算过程(你可以自由的缩放、移动这个流程图)：</p><div class="mermaid-wrap"><pre class="mermaid-src" data-config="{}" hidden>    flowchart TD    A[开始] --&gt; B[输入任意汉字]    B --&gt; C[获取该汉字的 GBK 编码&lt;br&gt;（双字节）]    C --&gt; D[分离区码和位码&lt;br&gt;区码 &#x3D; 高字节，位码 &#x3D; 低字节]    D --&gt; E[计算区码偏移&lt;br&gt;区码偏移 &#x3D; 区码 - 0x81]    E --&gt; F{位码 &gt; 0x7F ?}    F -- 是 --&gt; G[位码偏移 &#x3D; 位码 - 0x40 - 0x01]    F -- 否 --&gt; H[位码偏移 &#x3D; 位码 - 0x40]    G --&gt; I[计算汉字偏移量&lt;br&gt;偏移量 &#x3D; 区码偏移 × 每区汉字数 + 位码偏移&lt;br&gt;其中每区汉字数 &#x3D; 0xBE]    H --&gt; I    I --&gt; J[计算字模数据在 Flash 中的地址&lt;br&gt;地址 &#x3D; 偏移量 × 每个字模大小&lt;br&gt;每个字模大小 &#x3D; 32 字节]    J --&gt; K[结束]  </pre></div><blockquote><h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><strong>若位码小于等于 0x7F，则地址计算为:</strong></p><ul><li><code>地址 = (区码 - 0x81) * 0xBE + (位码 - 0x40) * 32</code></li></ul><p><strong>若位码大于 0x7F，则地址计算为:</strong></p><ul><li><code>地址 = (区码 - 0x81) * 0xBE + (位码 - 0x40 - 0x01) * 32</code></li></ul><blockquote><p>其中，0x81 是区码的起始位置，0xBE 是每个区的字码数量，0x40 是位码的起始位置，0x01 是为了修正位码的偏移量。</p></blockquote></blockquote><h2 id="验证计算结果"><a href="#验证计算结果" class="headerlink" title="验证计算结果"></a>验证计算结果</h2><!-- 丢 8147 --><p>使用 <a href="https://hexed.it/">十六进制编辑器</a> 打开我们生成的字库文件，按下 <code>Ctrl+G</code> 输入 <code>0x046840</code> 这个位置，之后按下回车跳转到这个位置，从这个位置开始，连续读取 32 个字节，就是汉字 “啊” 的字模数据了。</p><p><img src="/../../img/posts/STM32/01/goto_address1.png" alt="goto_address1"></p><p>选中这些数据，把它复制下来，粘贴到 <a href="https://www.23bei.com/tool/553.html">字模验证工具网站</a> 中 (注意选择对应的取模参数，数据排列和取模方式)，从图中可以看到我们的字模数据是正确的。</p><p><img src="/../../img/posts/STM32/01/font_data_validation.png" alt="font_data_validation"></p><blockquote><p>刚刚验证的是汉字 “啊” 的字模数据，它的位码大于了 0x7F，验证的是 <a href="#%E5%B0%8F%E7%BB%93">小结</a> 中 “若位码大于 0x7F” 这一部分的计算结果。下面以汉字 “丢” 为例子验证 “位码小于 0x7F” 这一部分的计算结果。<br>汉字 “丢” 的 GBK 编码为 <code>0x8147</code>，根据 GBK 编码的规则，计算过程如下：</p><ul><li>它的区码为 <code>0x81</code>，由于区码的起始位置为 <code>0x81</code>，<strong>所以区码偏移为 <code>0x81-0x81=0x00</code></strong>。</li><li>它的位码为 <code>0x47</code>，由于位码的起始位置为 <code>0x40</code>，并且它的值小于等于 0x7F，<strong>所以位码偏移为 <code>0x47-0x40=0x07</code></strong>。</li></ul><p>所以它的偏移地址为 <code>0x00*0xBE+0x07*0x20=0xE0</code>。<br>跳转到 <code>0xE0</code> 这个位置就可以看到汉字 “丢” 的字模数据了。在这里不再赘述验证过程。</p></blockquote><h2 id="烧录字库数据到-Flash-芯片内"><a href="#烧录字库数据到-Flash-芯片内" class="headerlink" title="烧录字库数据到 Flash 芯片内"></a>烧录字库数据到 Flash 芯片内</h2><p>这部分内容你可以用任何方式包括但不限于 ST-LINK、J-LINK、SWD 调试器、以及最基本的串口烧录(配合 Flash 驱动程序)。在这里就不详细展开说明了。</p>]]></content>
       
@@ -49,11 +49,11 @@
       
         <tags>
             
+            <tag> 经验分享 </tag>
+            
             <tag> STM32 </tag>
             
             <tag> 嵌入式 </tag>
-            
-            <tag> 经验分享 </tag>
             
         </tags>
       
@@ -78,9 +78,9 @@
       
         <tags>
             
-            <tag> 嵌入式 </tag>
-            
             <tag> 经验分享 </tag>
+            
+            <tag> 嵌入式 </tag>
             
             <tag> FPGA </tag>
             
@@ -109,9 +109,9 @@
       
         <tags>
             
-            <tag> 嵌入式 </tag>
-            
             <tag> 经验分享 </tag>
+            
+            <tag> 嵌入式 </tag>
             
             <tag> FPGA </tag>
             
@@ -140,9 +140,9 @@
       
         <tags>
             
-            <tag> 嵌入式 </tag>
-            
             <tag> 经验分享 </tag>
+            
+            <tag> 嵌入式 </tag>
             
             <tag> FPGA </tag>
             
@@ -171,9 +171,9 @@
       
         <tags>
             
-            <tag> 嵌入式 </tag>
-            
             <tag> 经验分享 </tag>
+            
+            <tag> 嵌入式 </tag>
             
             <tag> FPGA </tag>
             
@@ -202,9 +202,9 @@
       
         <tags>
             
-            <tag> 嵌入式 </tag>
-            
             <tag> 经验分享 </tag>
+            
+            <tag> 嵌入式 </tag>
             
             <tag> FPGA </tag>
             
@@ -233,9 +233,9 @@
       
         <tags>
             
-            <tag> 嵌入式 </tag>
-            
             <tag> 经验分享 </tag>
+            
+            <tag> 嵌入式 </tag>
             
             <tag> FPGA </tag>
             
@@ -264,9 +264,9 @@
       
         <tags>
             
-            <tag> 嵌入式 </tag>
-            
             <tag> 经验分享 </tag>
+            
+            <tag> 嵌入式 </tag>
             
             <tag> FPGA </tag>
             
