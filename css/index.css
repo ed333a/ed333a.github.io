@@ -2809,7 +2809,7 @@ pre[class*='language-'] .token.entity {
 }
 @font-face {
   font-family: 'maiyuan';
-  src: url("/font/Kingnammm-Maiyuan-II-Regular-2.ttf") format('truetype');
+  src: url("https://cdn.jsdelivr.net/gh/ed333a/ed333a.github.io@main/font/Kingnammm-Maiyuan-II-Regular-2.ttf") format('truetype');
 }
 #body-wrap {
   display: -webkit-box;
