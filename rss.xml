@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>硬件日记</title><description>日常分享 · 硬件设计 · 经验踩坑</description><link>https://example.com/</link><language>zh_CN</language><item><title>[blog-MT-02] - 使用 cloudflare pages 托管博客网页的静态资源</title><link>https://example.com/posts/9942d232/</link><guid isPermaLink="true">https://example.com/posts/9942d232/</guid><pubDate>Wed, 20 May 2026 09:43:19 GMT</pubDate><content:encoded>&lt;h3&gt;前言&lt;/h3&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>硬件日记</title><description>日常分享 · 硬件设计 · 经验踩坑</description><link>https://blog.tyh123.top/</link><language>zh_CN</language><item><title>[blog-MT-02] - 使用 cloudflare pages 托管博客网页的静态资源</title><link>https://blog.tyh123.top/posts/9942d232/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/9942d232/</guid><pubDate>Wed, 20 May 2026 09:43:19 GMT</pubDate><content:encoded>&lt;h3&gt;前言&lt;/h3&gt;
 &lt;p&gt;由于 github pages 在国内的访问速度实在是不稳定，在查询资料的时候发现 cloudflare 可以提供静态资源部署服务，并且访问速度还是不错的。所以本篇文章基于此而诞生。&lt;/p&gt;
 &lt;h3&gt;部署步骤&lt;/h3&gt;
 &lt;p&gt;在这之前请注册 cloudflare 账号。关于账号注册本篇不再赘述，跟着提示一步步走即可，或者直接使用 github 账号登陆，登陆后验证一下邮箱就行了。&lt;/p&gt;
@@ -16,7 +16,7 @@
 之后我们会来到这个页面，相关选项已在图中表示，配置好后往下翻找到 Save and Deploy 蓝色按钮，点击保存后开始自动部署。
 &lt;img src=&quot;/img/posts/blog/02/pages_setup.png&quot; alt=&quot;&quot; /&gt;
 之后自动部署好的静态网页将可以通过 &lt;code&gt;hexo-repo-e1a.pages.dev&lt;/code&gt; 这个链接访问。在这之前我已经创建好了一个静态资源网页，它的地址是 &lt;code&gt;hexo-repo-1qi.pages.dev&lt;/code&gt;。&lt;/p&gt;
-</content:encoded></item><item><title>[blog-MT-01] - 博客建站过程</title><link>https://example.com/posts/f1ef2aaa/</link><guid isPermaLink="true">https://example.com/posts/f1ef2aaa/</guid><pubDate>Tue, 19 May 2026 22:33:31 GMT</pubDate><content:encoded>&lt;h3&gt;关于 Hexo&lt;/h3&gt;
+</content:encoded></item><item><title>[blog-MT-01] - 博客建站过程</title><link>https://blog.tyh123.top/posts/f1ef2aaa/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/f1ef2aaa/</guid><pubDate>Tue, 19 May 2026 22:33:31 GMT</pubDate><content:encoded>&lt;h3&gt;关于 Hexo&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Hexo&lt;/strong&gt; 是一个基于 Node.js 编写的快速、简洁且高效的&lt;strong&gt;博客框架&lt;/strong&gt;。它通过解析 Markdown 格式的源文件，结合主题模板，一键生成静态网页资源；用户可以将这些静态资源文件部署到如 Github Pages 的静态资源托管服务站点上，无需后端环境或数据库，即可拥有高性能、易于维护的个人博客站点。&lt;/p&gt;
 &lt;h3&gt;配置 Node.js 环境&lt;/h3&gt;
 &lt;p&gt;在安装 Hexo 之前，首先要配置 Node.js 环境，前往 &lt;a href=&quot;https://nodejs.cn/download/&quot;&gt;Node.js 中文网下载页面&lt;/a&gt; 下载适合你当前所使用的系统的 Node.js 安装包。&lt;/p&gt;
@@ -67,8 +67,8 @@ Hexo 初始化时会从 Github 克隆一个模板仓库，有时受限于网络�
 &lt;pre&gt;&lt;code&gt;$ hexo g
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;生成好的静态资源位于 &lt;code&gt;public&lt;/code&gt; 文件夹下&lt;/p&gt;
-</content:encoded></item><item><title>ceshi</title><link>https://example.com/posts/e6447b4a/</link><guid isPermaLink="true">https://example.com/posts/e6447b4a/</guid><pubDate>Thu, 14 May 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;nihao&lt;/p&gt;
-</content:encoded></item><item><title>FPGA SPI 通信</title><link>https://example.com/posts/52a1f482/</link><guid isPermaLink="true">https://example.com/posts/52a1f482/</guid><pubDate>Sun, 19 Apr 2026 14:38:34 GMT</pubDate><content:encoded>&lt;h3&gt;简介&lt;/h3&gt;
+</content:encoded></item><item><title>ceshi</title><link>https://blog.tyh123.top/posts/e6447b4a/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/e6447b4a/</guid><pubDate>Thu, 14 May 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;nihao&lt;/p&gt;
+</content:encoded></item><item><title>FPGA SPI 通信</title><link>https://blog.tyh123.top/posts/52a1f482/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/52a1f482/</guid><pubDate>Sun, 19 Apr 2026 14:38:34 GMT</pubDate><content:encoded>&lt;h3&gt;简介&lt;/h3&gt;
 &lt;p&gt;在之前讲 {% post_link &apos;FPGA 串口通信&apos; %} 的时候，有讲到过&lt;strong&gt;串口通信是异步通信&lt;/strong&gt;，而 SPI 通信是一个&lt;strong&gt;典型的同步通信&lt;/strong&gt;。它需要&lt;strong&gt;主设备驱动时钟信号线&lt;/strong&gt;，所有数据位的发送和接收都在时钟的边沿触发，收发双方不再需要各自校准波特率，也不用起始位/停止位等操作，因此相比于异步的串口通信，这种通信方式效率更高，时序更稳定。缺点则是占用了更多的管脚，在 PCB 的布局布线上相比于串口复杂一些。&lt;/p&gt;
 &lt;h3&gt;标准 SPI(四线式) 接口&lt;/h3&gt;
 &lt;p&gt;标准 SPI 接口采用的是四线式接线方式，有 SCLK、MOSI、MISO 以及 SS#/CS# 四根信号线。这种方式的 SPI 接口支持全双工通信，即同时接收和发送。&lt;/p&gt;
@@ -694,7 +694,7 @@ endmodule
 &lt;pre&gt;&lt;code&gt;wire    sdio_dir = (data_bit_cnt &amp;lt;= 16) ? 1&apos;b0 : rh_wl; // 前 16 位：读写控制位和寄存器地址，固定为输出方向，低 8 位根据读写控制来调整方向
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;将判断条件设置为你需要的值即可。&lt;/p&gt;
-</content:encoded></item><item><title>FPGA 实现以太网 PHY 芯片配置接口 —— MDIO 的学习与应用</title><link>https://example.com/posts/3723985a/</link><guid isPermaLink="true">https://example.com/posts/3723985a/</guid><pubDate>Sat, 18 Apr 2026 15:18:25 GMT</pubDate><content:encoded>&lt;h3&gt;前言&lt;/h3&gt;
+</content:encoded></item><item><title>FPGA 实现以太网 PHY 芯片配置接口 —— MDIO 的学习与应用</title><link>https://blog.tyh123.top/posts/3723985a/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/3723985a/</guid><pubDate>Sat, 18 Apr 2026 15:18:25 GMT</pubDate><content:encoded>&lt;h3&gt;前言&lt;/h3&gt;
 &lt;p&gt;MDIO 接口是配置以太网 PHY 芯片片上寄存器的一种通用接口，几乎所有的以太网 PHY 芯片使用的都是 MDIO 接口来配置寄存器。&lt;/p&gt;
 &lt;h3&gt;接线方式&lt;/h3&gt;
 &lt;ul&gt;
@@ -1063,7 +1063,7 @@ end
 
 endmodule
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>FPGA 串口通信</title><link>https://example.com/posts/96d23a91/</link><guid isPermaLink="true">https://example.com/posts/96d23a91/</guid><pubDate>Fri, 17 Apr 2026 14:08:17 GMT</pubDate><content:encoded>&lt;h2&gt;简介&lt;/h2&gt;
+</content:encoded></item><item><title>FPGA 串口通信</title><link>https://blog.tyh123.top/posts/96d23a91/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/96d23a91/</guid><pubDate>Fri, 17 Apr 2026 14:08:17 GMT</pubDate><content:encoded>&lt;h2&gt;简介&lt;/h2&gt;
 &lt;p&gt;串口，即 UART(全称 Universal Asynchronous Receiver/Transmitter，中文正式名称为通用异步收发器)，是采用串行通信方式的接口。串行通信将字节数据&lt;strong&gt;按比特在一条数据线上逐个传输&lt;/strong&gt;，其特点是线路简单，但传输速度较慢。&lt;/p&gt;
 &lt;p&gt;对于传输速度要求不高的场合，如工业控制、嵌入式开发等领域，串口通信是常客。&lt;/p&gt;
 &lt;h2&gt;串口通信方式&lt;/h2&gt;
@@ -1594,7 +1594,7 @@ assign led_rx_done  = rx_done; // 将接收完成信号输出到板载的一颗 
 
 endmodule
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>ETH-04 ARP 通信协议简介及实现代码</title><link>https://example.com/posts/424a6d95/</link><guid isPermaLink="true">https://example.com/posts/424a6d95/</guid><pubDate>Thu, 16 Apr 2026 11:25:17 GMT</pubDate><content:encoded>&lt;h3&gt;ARP 协议简介&lt;/h3&gt;
+</content:encoded></item><item><title>ETH-04 ARP 通信协议简介及实现代码</title><link>https://blog.tyh123.top/posts/424a6d95/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/424a6d95/</guid><pubDate>Thu, 16 Apr 2026 11:25:17 GMT</pubDate><content:encoded>&lt;h3&gt;ARP 协议简介&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;ARP（Address Resolution Protocol，地址解析协议）&lt;/strong&gt; 是一种根据 IP 地址 (逻辑地址) 获取 MAC 地址 (物理地址) 的 TCP/IP 协议。&lt;/p&gt;
 &lt;p&gt;在以太网环境中，设备之间的通信&lt;strong&gt;依赖于 MAC 地址&lt;/strong&gt;，但上层应用通常&lt;strong&gt;只知道目标设备的 IP 地址&lt;/strong&gt;。ARP 协议通过 &quot;一问一答&quot; 的机制，解决了 &quot;&lt;strong&gt;已知 IP 地址，如何找到对应 MAC 地址&lt;/strong&gt;&quot; 的问题，确保数据能够正确封装并送达目标设备。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/img/posts/fpga_impl_interface/ethernet_impl/eth-04/arp_block_diagram.png&quot; alt=&quot;ARP 协议图&quot; /&gt;&lt;/p&gt;
@@ -2022,7 +2022,7 @@ arp_tx arp_tx_inst (
     .arp_tx_type    (   arp_tx_type )   //  [I] [     ] ARP TX type, 1&apos;b0: ARP req, 1&apos;b1: ARP ack
 );
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>ETH-03 以太网帧结构介绍以及 Verilog 实现代码</title><link>https://example.com/posts/6ec21651/</link><guid isPermaLink="true">https://example.com/posts/6ec21651/</guid><pubDate>Wed, 15 Apr 2026 10:47:26 GMT</pubDate><content:encoded>&lt;h3&gt;什么是以太网帧&lt;/h3&gt;
+</content:encoded></item><item><title>ETH-03 以太网帧结构介绍以及 Verilog 实现代码</title><link>https://blog.tyh123.top/posts/6ec21651/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/6ec21651/</guid><pubDate>Wed, 15 Apr 2026 10:47:26 GMT</pubDate><content:encoded>&lt;h3&gt;什么是以太网帧&lt;/h3&gt;
 &lt;p&gt;以太网帧是指在网络中&lt;strong&gt;传输数据的基本单位&lt;/strong&gt;。以太网帧按照一定的格式组成了以太网数据包。简单来讲，它类似于 &quot;数据包裹(就像快递一样)&quot;，包裹中包含了 &quot;寄件人 (发送方 MAC 地址)&quot;、&quot;收件人 (接收方 MAC 地址)&quot; 和 &quot;包裹内容 (有效数据)&quot;。以太网帧指的就是这个数据包本身。&lt;/p&gt;
 &lt;p&gt;理解以太网帧的组成是我们开始学习以太网 ARP、ICMP、UDP 等上层协议的基础。&lt;/p&gt;
 &lt;h3&gt;以太网帧的组成 (格式)&lt;/h3&gt;
@@ -2922,7 +2922,7 @@ eth_frame_encap # (
     .gmii_tx_en     (   gmii_tx_en      )   //  [O] [    ]
 );
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>ETH-02 RGMII 接口和 GMII 接口的互相转换</title><link>https://example.com/posts/db8d0357/</link><guid isPermaLink="true">https://example.com/posts/db8d0357/</guid><pubDate>Tue, 14 Apr 2026 14:26:09 GMT</pubDate><content:encoded>&lt;p&gt;在 &lt;a href=&quot;ETH-01%20%E5%88%9D%E8%AF%86%E4%BB%A5%E5%A4%AA%E7%BD%91%E7%9A%84%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90.md&quot;&gt;ETH-01 初识以太网的硬件组成&lt;/a&gt; 中我讲到了 RGMII 接口和 GMII 的两种数据接口。本篇则围绕这两种数据接口的互相转换展开。&lt;/p&gt;
+</content:encoded></item><item><title>ETH-02 RGMII 接口和 GMII 接口的互相转换</title><link>https://blog.tyh123.top/posts/db8d0357/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/db8d0357/</guid><pubDate>Tue, 14 Apr 2026 14:26:09 GMT</pubDate><content:encoded>&lt;p&gt;在 &lt;a href=&quot;ETH-01%20%E5%88%9D%E8%AF%86%E4%BB%A5%E5%A4%AA%E7%BD%91%E7%9A%84%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90.md&quot;&gt;ETH-01 初识以太网的硬件组成&lt;/a&gt; 中我讲到了 RGMII 接口和 GMII 的两种数据接口。本篇则围绕这两种数据接口的互相转换展开。&lt;/p&gt;
 &lt;h3&gt;前言&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;在 FPGA 中，数据通常只在时钟的上升沿被采集。对于采用双边沿数据有效的 RGMII 接口而言，若仅使用上升沿进行采样，就会丢失下降沿所对应的数据&lt;/strong&gt;。同理，FPGA 在输出数据时，也只能在上升沿发生变化。为解决这一问题，Xilinx 提供了 &lt;code&gt;IDDR&lt;/code&gt; 和 &lt;code&gt;ODDR&lt;/code&gt; 两个原语，分别用于接收和发送双边沿数据。&lt;/p&gt;
 &lt;blockquote&gt;
@@ -3198,7 +3198,7 @@ generate
     end
 endgenerate
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>ETH-01 初识以太网的硬件组成</title><link>https://example.com/posts/4a0bb95d/</link><guid isPermaLink="true">https://example.com/posts/4a0bb95d/</guid><pubDate>Mon, 13 Apr 2026 15:14:06 GMT</pubDate><content:encoded>&lt;h3&gt;以太网通信的硬件组成&lt;/h3&gt;
+</content:encoded></item><item><title>ETH-01 初识以太网的硬件组成</title><link>https://blog.tyh123.top/posts/4a0bb95d/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/4a0bb95d/</guid><pubDate>Mon, 13 Apr 2026 15:14:06 GMT</pubDate><content:encoded>&lt;h3&gt;以太网通信的硬件组成&lt;/h3&gt;
 &lt;p&gt;下面是一张硬件组成图例
 &lt;img src=&quot;/img/posts/fpga_impl_interface/ethernet_impl/eth-01/ethernet_hardware_components.png&quot; alt=&quot;以太网通信的硬件组成&quot; /&gt;
 主要由 &lt;strong&gt;MAC (Media Access Control，媒体访问控制器)&lt;/strong&gt; 和 &lt;strong&gt;PHY(Physical Layer，物理层接口)&lt;/strong&gt; 两大部分组成。&lt;/p&gt;
@@ -3278,7 +3278,7 @@ endgenerate
 &lt;/blockquote&gt;
 &lt;h3&gt;小结&lt;/h3&gt;
 &lt;p&gt;以太网的硬件设计离不开 MAC 与 PHY 的协同工作，而 GMII 与 RGMII 作为两者之间的主流接口，分别在高性能与高集成度之间提供了不同的选择。GMII 以完整的 8 位数据线和简单的时序控制，适合对时序要求严苛的早期设备或开发平台；RGMII 则通过 DDR 技术和引脚精简，成为当前嵌入式系统中最常用的接口标准。理解这些接口的特性，有助于在实际项目中进行合理的芯片选型和 PCB 设计，从而在性能、成本与布线复杂度之间取得平衡。&lt;/p&gt;
-</content:encoded></item><item><title>将字库数据烧录到 Flash 芯片内的方法</title><link>https://example.com/posts/29f8f7f6/</link><guid isPermaLink="true">https://example.com/posts/29f8f7f6/</guid><pubDate>Tue, 17 Mar 2026 09:18:06 GMT</pubDate><content:encoded>&lt;p&gt;:::note
+</content:encoded></item><item><title>将字库数据烧录到 Flash 芯片内的方法</title><link>https://blog.tyh123.top/posts/29f8f7f6/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/29f8f7f6/</guid><pubDate>Tue, 17 Mar 2026 09:18:06 GMT</pubDate><content:encoded>&lt;p&gt;:::note
 本文旨在提供思路和方法，同时作为一篇开发笔记分享给大家。本文中所有的软件资源、代码等可以在 Gitee 仓库: &lt;a&gt;Stm32_HZK&lt;/a&gt; 中获取。&lt;/p&gt;
 &lt;p&gt;本文中所使用的 Flash 芯片型号为 华邦(WINBOND) 生产的 W25Q 系列的芯片，它是一款&lt;strong&gt;非易失性存储芯片&lt;/strong&gt;，通信方式支持有 SPI, Dual SPI, QUAD SPI 这三种方式。 支持的最大时钟频率为  133MHz。
 :::&lt;/p&gt;
@@ -3416,7 +3416,7 @@ J --&amp;gt; K[结束]
 &lt;/blockquote&gt;
 &lt;h2&gt;烧录字库数据到 Flash 芯片内&lt;/h2&gt;
 &lt;p&gt;这部分内容你可以用任何方式包括但不限于 ST-LINK、J-LINK、SWD 调试器、以及最基本的串口烧录(配合 Flash 驱动程序)。在这里就不详细展开说明了。&lt;/p&gt;
-</content:encoded></item><item><title>Markdown Extended Features</title><link>https://example.com/posts/d2ae6349/</link><guid isPermaLink="true">https://example.com/posts/d2ae6349/</guid><description>Read more about Markdown features in Fuwari</description><pubDate>Wed, 01 May 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;GitHub Repository Cards&lt;/h2&gt;
+</content:encoded></item><item><title>Markdown Extended Features</title><link>https://blog.tyh123.top/posts/d2ae6349/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/d2ae6349/</guid><description>Read more about Markdown features in Fuwari</description><pubDate>Wed, 01 May 2024 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;GitHub Repository Cards&lt;/h2&gt;
 &lt;p&gt;You can add dynamic cards that link to GitHub repositories, on page load, the repository information is pulled from the GitHub API.&lt;/p&gt;
 &lt;p&gt;::github{repo=&quot;Fabrizz/MMM-OnSpotify&quot;}&lt;/p&gt;
 &lt;p&gt;Create a GitHub repository card with the code &lt;code&gt;::github{repo=&quot;&amp;lt;owner&amp;gt;/&amp;lt;repo&amp;gt;&quot;}&lt;/code&gt;.&lt;/p&gt;
@@ -3474,7 +3474,7 @@ This is a note with a custom title.
 &lt;pre&gt;&lt;code&gt;The content :spoiler[is hidden **ayyy**]!
 
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>Expressive Code Example</title><link>https://example.com/posts/e406953d/</link><guid isPermaLink="true">https://example.com/posts/e406953d/</guid><description>How code blocks look in Markdown using Expressive Code.</description><pubDate>Wed, 10 Apr 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Here, we&apos;ll explore how code blocks look using &lt;a href=&quot;https://expressive-code.com/&quot;&gt;Expressive Code&lt;/a&gt;. The provided examples are based on the official documentation, which you can refer to for further details.&lt;/p&gt;
+</content:encoded></item><item><title>Expressive Code Example</title><link>https://blog.tyh123.top/posts/e406953d/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/e406953d/</guid><description>How code blocks look in Markdown using Expressive Code.</description><pubDate>Wed, 10 Apr 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Here, we&apos;ll explore how code blocks look using &lt;a href=&quot;https://expressive-code.com/&quot;&gt;Expressive Code&lt;/a&gt;. The provided examples are based on the official documentation, which you can refer to for further details.&lt;/p&gt;
 &lt;h2&gt;Expressive Code&lt;/h2&gt;
 &lt;h3&gt;Syntax Highlighting&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://expressive-code.com/key-features/syntax-highlighting/&quot;&gt;Syntax Highlighting&lt;/a&gt;&lt;/p&gt;
@@ -3683,7 +3683,7 @@ console.log(&apos;Sorry, do you know what line I am on?&apos;)
 &lt;pre&gt;&lt;code&gt;console.log(&apos;Greetings from line 5!&apos;)
 console.log(&apos;I am on line 6&apos;)
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>Simple Guides for Fuwari</title><link>https://example.com/posts/b56cb502/</link><guid isPermaLink="true">https://example.com/posts/b56cb502/</guid><description>How to use this blog template.</description><pubDate>Mon, 01 Apr 2024 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+</content:encoded></item><item><title>Simple Guides for Fuwari</title><link>https://blog.tyh123.top/posts/b56cb502/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/b56cb502/</guid><description>How to use this blog template.</description><pubDate>Mon, 01 Apr 2024 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;Cover image source: &lt;a href=&quot;https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/208fc754-890d-4adb-9753-2c963332675d/width=2048/01651-1456859105-(colour_1.5),girl,_Blue,yellow,green,cyan,purple,red,pink,_best,8k,UHD,masterpiece,male%20focus,%201boy,gloves,%20ponytail,%20long%20hair,.jpeg&quot;&gt;Source&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;This blog template is built with &lt;a href=&quot;https://astro.build/&quot;&gt;Astro&lt;/a&gt;. For the things that are not mentioned in this guide, you may find the answers in the &lt;a href=&quot;https://docs.astro.build/&quot;&gt;Astro Docs&lt;/a&gt;.&lt;/p&gt;
@@ -3744,7 +3744,7 @@ draft: false
     ├── cover.png
     └── index.md
 &lt;/code&gt;&lt;/pre&gt;
-</content:encoded></item><item><title>Markdown Example</title><link>https://example.com/posts/2339e0f4/</link><guid isPermaLink="true">https://example.com/posts/2339e0f4/</guid><description>A simple example of a Markdown blog post.</description><pubDate>Sun, 01 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;An h1 header&lt;/h1&gt;
+</content:encoded></item><item><title>Markdown Example</title><link>https://blog.tyh123.top/posts/2339e0f4/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/2339e0f4/</guid><description>A simple example of a Markdown blog post.</description><pubDate>Sun, 01 Oct 2023 00:00:00 GMT</pubDate><content:encoded>&lt;h1&gt;An h1 header&lt;/h1&gt;
 &lt;p&gt;Paragraphs are separated by a blank line.&lt;/p&gt;
 &lt;p&gt;2nd paragraph. &lt;em&gt;Italic&lt;/em&gt;, &lt;strong&gt;bold&lt;/strong&gt;, and &lt;code&gt;monospace&lt;/code&gt;. Itemized lists
 look like:&lt;/p&gt;
@@ -3873,7 +3873,7 @@ math should get its own line and be put in in double-dollarsigns:&lt;/p&gt;
 $$&lt;/p&gt;
 &lt;p&gt;And note that you can backslash-escape any punctuation characters
 which you wish to be displayed literally, ex.: `foo`, *bar*, etc.&lt;/p&gt;
-</content:encoded></item><item><title>Include Video in the Posts</title><link>https://example.com/posts/189ec72d/</link><guid isPermaLink="true">https://example.com/posts/189ec72d/</guid><description>This post demonstrates how to include embedded video in a blog post.</description><pubDate>Tue, 01 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Just copy the embed code from YouTube or other platforms, and paste it in the markdown file.&lt;/p&gt;
+</content:encoded></item><item><title>Include Video in the Posts</title><link>https://blog.tyh123.top/posts/189ec72d/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/189ec72d/</guid><description>This post demonstrates how to include embedded video in a blog post.</description><pubDate>Tue, 01 Aug 2023 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Just copy the embed code from YouTube or other platforms, and paste it in the markdown file.&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;---
 title: Include Video in the Post
 published: 2023-10-19
