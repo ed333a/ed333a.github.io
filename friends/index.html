@@ -1,564 +1,93 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>友情链接 | 硬件日记 | TYH123</title><meta name="author" content="TYH123"><meta name="copyright" content="TYH123"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="想和我交换友链吗？非常欢迎！如果觉得小站还不错，想把它加到你的友链里，只需要按下面的格式给我发一封邮件就好啦。 这是我的邮箱地址：ed333.email@qq.com收到邮件后，我会在三日内把你的小窝挂上来，并给你回信确认。 另外也麻烦你，在发邮件前先把我加到你的友链里哦～ name: [你的网站名字] link: [你的网站地址] avatar: [你的头像图片地址] descr: [简单介绍">
-<meta property="og:type" content="website">
-<meta property="og:title" content="友情链接">
-<meta property="og:url" content="https://blog.tyh123.top/friends/index.html">
-<meta property="og:site_name" content="硬件日记 | TYH123">
-<meta property="og:description" content="想和我交换友链吗？非常欢迎！如果觉得小站还不错，想把它加到你的友链里，只需要按下面的格式给我发一封邮件就好啦。 这是我的邮箱地址：ed333.email@qq.com收到邮件后，我会在三日内把你的小窝挂上来，并给你回信确认。 另外也麻烦你，在发邮件前先把我加到你的友链里哦～ name: [你的网站名字] link: [你的网站地址] avatar: [你的头像图片地址] descr: [简单介绍">
-<meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.tyh123.top/img/avatar.jpg">
-<meta property="article:published_time" content="2026-04-11T21:32:20.000Z">
-<meta property="article:modified_time" content="2026-05-21T08:39:36.328Z">
-<meta property="article:author" content="TYH123">
-<meta property="article:tag" content="FPGA">
-<meta property="article:tag" content="Keil">
-<meta property="article:tag" content="Keil5">
-<meta property="article:tag" content="PCB">
-<meta property="article:tag" content="STM32">
-<meta property="article:tag" content="Vivado">
-<meta property="article:tag" content="Xilinx">
-<meta property="article:tag" content="单片机">
-<meta property="article:tag" content="嵌入式开发">
-<meta property="article:tag" content="电路设计">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://blog.tyh123.top/img/avatar.jpg"><script type="application/ld+json"></script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://blog.tyh123.top/friends/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="//busuanzi.ibruce.info"><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.9/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
-    (() => {
-      
-    const saveToLocal = {
-      set: (key, value, ttl) => {
-        if (!ttl) return
-        const expiry = Date.now() + ttl * 86400000
-        localStorage.setItem(key, JSON.stringify({ value, expiry }))
-      },
-      get: key => {
-        const itemStr = localStorage.getItem(key)
-        if (!itemStr) return undefined
-        const { value, expiry } = JSON.parse(itemStr)
-        if (Date.now() > expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return value
-      }
-    }
+<!DOCTYPE html><html lang="zh-CN" class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]" data-overlayscrollbars-initialize style="--bannerOffset: 15vh;--banner-height-home: 95vh;--banner-height: 65vh;--card-bg-light: rgba(255, 255, 255, 0.8);--card-bg-dark: rgba(18, 18, 18, 0.8);--border-radius: 25px;--card-blur: 2px;--bg-blur: 1px;--bg-linear-dark: linear-gradient(135deg, #145545, #3e235b,#1e0a0e);--bg-linear-light: linear-gradient(135deg, #2AA789, #8c51cd,#FF5577);--page-width: 75rem;"> <head><title>硬件日记 - 日常分享 · 硬件设计 · 经验踩坑</title><meta charset="UTF-8"><meta name="description" content="硬件日记 - 日常分享 · 硬件设计 · 经验踩坑"><meta name="author" content="Your Name"><meta property="og:site_name" content="硬件日记"><meta property="og:url" content="https://example.com/friends/"><meta property="og:title" content="硬件日记 - 日常分享 · 硬件设计 · 经验踩坑"><meta property="og:description" content="硬件日记 - 日常分享 · 硬件设计 · 经验踩坑"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://example.com/friends/"><meta name="twitter:title" content="硬件日记 - 日常分享 · 硬件设计 · 经验踩坑"><meta name="twitter:description" content="硬件日记 - 日常分享 · 硬件设计 · 经验踩坑"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.13.10"><meta name="keywords" content="your key words,more,more annnnd more"><!-- Set the theme before the page is rendered to avoid a flash --><script>(function(){const configHue = 250;
 
-    window.btf = {
-      saveToLocal,
-      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
-        const script = document.createElement('script')
-        script.src = url
-        script.async = true
-        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
-        script.onload = script.onreadystatechange = () => {
-          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
-        }
-        script.onerror = reject
-        document.head.appendChild(script)
-      }),
-      getCSS: (url, id) => new Promise((resolve, reject) => {
-        const link = document.createElement('link')
-        link.rel = 'stylesheet'
-        link.href = url
-        if (id) link.id = id
-        link.onload = link.onreadystatechange = () => {
-          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
-        }
-        link.onerror = reject
-        document.head.appendChild(link)
-      }),
-      addGlobalFn: (key, fn, name = false, parent = window) => {
-        if (!false && key.startsWith('pjax')) return
-        const globalFn = parent.globalFn || {}
-        globalFn[key] = globalFn[key] || {}
-        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
-        parent.globalFn = globalFn
-      }
-    }
-  
-      
-      const activateDarkMode = () => {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
-        }
-      }
-      const activateLightMode = () => {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
-        }
-      }
+			// Load the theme from local storage
+			const theme = localStorage.getItem('theme') || "auto";
+			switch (theme) {
+				case "light":
+					document.documentElement.classList.remove('dark');
+					break
+				case "dark":
+					document.documentElement.classList.add('dark');
+					break
+				case "auto":
+					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+						document.documentElement.classList.add('dark');
+					} else {
+						document.documentElement.classList.remove('dark');
+					}
+			}
 
-      btf.activateDarkMode = activateDarkMode
-      btf.activateLightMode = activateLightMode
+			// Load the hue from local storage
+			const hue = localStorage.getItem('hue') || configHue;
+			document.documentElement.style.setProperty('--hue', hue);
 
-      const theme = saveToLocal.get('theme')
-    
-          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
-        
-      
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
-      }
-    
-      
-    const detectApple = () => {
-      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
-        document.documentElement.classList.add('apple')
-      }
-    }
-    detectApple()
-  
-    })()
-  </script><script>const GLOBAL_CONFIG = {
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":3,"unescape":true,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
-  translate: undefined,
-  highlight: {"plugin":"prismjs","highlightCopy":true,"highlightWordWrap":true,"highlightLang":true,"highlightHeightLimit":300,"highlightFullpage":true,"highlightMacStyle":true},
-  copy: {
-    success: '复制成功',
-    error: '复制失败',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '天',
-  dateSuffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: undefined,
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  infinitegrid: {
-    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
-    buttonText: '加载更多'
-  },
-  isPhotoFigcaption: false,
-  islazyloadPlugin: false,
-  isAnchor: false,
-  percent: {
-    toc: true,
-    rightside: false,
-  },
-  autoDarkmode: false
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: '友情链接',
-  isHighlightShrink: false,
-  isToc: false,
-  pageType: 'page'
-}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div class="bg-animation" id="web_bg" style="background-image: url(/img/bg.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/index.html"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div></div></div><div class="page type-link" id="body-wrap"><header class="not-home-page fixed" id="page-header" style="background-image: url(/img/bg.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">硬件日记 | TYH123</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/index.html"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于我</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/friends/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="page-site-info"><h1 id="site-title">友情链接</h1></div></header><main class="layout hide-aside" id="content-inner"><div id="page"><div class="container" id="article-container"><div class="flink"><h2 id="我自己"><a href="#我自己" class="headerlink" title="我自己"></a>我自己</h2><div class="flink-desc">这是我自己的博客地址</div> <div class="flink-list">
-  <div class="flink-list-item">
-    <a href="https://ed333a.github.io/" title="我的博客" target="_blank">
-      
-      <div class="flink-item-content">
-        <div class="flink-item-icon">
-          <img class="no-lightbox" src="/img/avatar.jpg" onerror="this.onerror=null;this.src=&quot;/img/friend_404.gif&quot;" alt="我的博客">
-        </div>
-        <div class="flink-item-info">
-          <div class="flink-item-name">我的博客</div>
-          <div class="flink-item-desc" title="我自己的博客">我自己的博客</div>
-          <div class="flink-item-time"><i style="margin-right: 5px;" class="fa-regular fa-calendar-days"></i>于 2026-04-1 收录</div>
-        </div>
-      </div>
-    </a>
-  </div></div><h2 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h2><div class="flink-desc">感谢以下项目的贡献</div> <div class="flink-list">
-  <div class="flink-list-item">
-    <a href="https://hexo.io/zh-tw/" title="Hexo" target="_blank">
-      
-      <div class="flink-item-content">
-        <div class="flink-item-icon">
-          <img class="no-lightbox" src="https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg" onerror="this.onerror=null;this.src=&quot;/img/friend_404.gif&quot;" alt="Hexo">
-        </div>
-        <div class="flink-item-info">
-          <div class="flink-item-name">Hexo</div>
-          <div class="flink-item-desc" title="快速、简单且强大的博客框架，为博客提供了建站基础。">快速、简单且强大的博客框架，为博客提供了建站基础。</div>
-          <div class="flink-item-time"><i style="margin-right: 5px;" class="fa-regular fa-calendar-days"></i>于 2026-04-1 收录</div>
-        </div>
-      </div>
-    </a>
-  </div>
-  <div class="flink-list-item">
-    <a href="https://butterfly.js.org/" title="Butterfly" target="_blank">
-      
-      <div class="flink-item-content">
-        <div class="flink-item-icon">
-          <img class="no-lightbox" src="/img/friend_link/thanks/butterfly-icon.png" onerror="this.onerror=null;this.src=&quot;/img/friend_404.gif&quot;" alt="Butterfly">
-        </div>
-        <div class="flink-item-info">
-          <div class="flink-item-name">Butterfly</div>
-          <div class="flink-item-desc" title="功能强大的 Hexo 主题。本站基于 Butterfly 主题修改。">功能强大的 Hexo 主题。本站基于 Butterfly 主题修改。</div>
-          <div class="flink-item-time"><i style="margin-right: 5px;" class="fa-regular fa-calendar-days"></i>于 2026-04-1 收录</div>
-        </div>
-      </div>
-    </a>
-  </div></div><hr>
-<h3 id="想和我交换友链吗？"><a href="#想和我交换友链吗？" class="headerlink" title="想和我交换友链吗？"></a>想和我交换友链吗？</h3><p>非常欢迎！如果觉得小站还不错，想把它加到你的友链里，只需要按下面的格式给我发一封邮件就好啦。</p>
-<p>这是我的邮箱地址：<a href="mailto:ed333.email@qq.com">ed333.email@qq.com</a><br>收到邮件后，我会在<strong>三日内</strong>把你的小窝挂上来，并给你回信确认。</p>
-<p><strong>另外也麻烦你，在发邮件前先把我加到你的友链里哦～</strong></p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>你的网站名字<span class="token punctuation">]</span>
-<span class="token key atrule">link</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>你的网站地址<span class="token punctuation">]</span>
-<span class="token key atrule">avatar</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>你的头像图片地址<span class="token punctuation">]</span>
-<span class="token key atrule">descr</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>简单介绍一下你的网站<span class="token punctuation">]</span>
-<span class="token key atrule">cover</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>你的网站封面图地址<span class="token punctuation">]</span>
+			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text
+			let offset = Math.floor(window.innerHeight * (Number.parseInt(bannerConfig["banner-height"],10) / 100));
+			offset = offset - offset % 4;
+			document.documentElement.style.setProperty('--banner-height-extend', `${offset}px`);
+		})();</script><link rel="alternate" type="application/rss+xml" title="Your Name" href="https://example.com/rss.xml"><link rel="stylesheet" href="/_astro/Layout.DSulWsr7.css">
+<link rel="stylesheet" href="/_astro/Layout.y4KPJ9hc.css">
+<link rel="stylesheet" href="/_astro/_page_.Coq36qcq.css">
+<link rel="stylesheet" href="/_astro/friends.DJ_u9TKW.css">
+<style>input.svelte-1wah7ro:focus{outline:0}.search-panel.svelte-1wah7ro{max-height:calc(100vh - 100px);overflow-y:auto}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k){-webkit-appearance:none;height:1.5rem;background-image:var(--color-selection-bar);transition:background-image .15s ease-in-out}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-webkit-slider-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;border-width:0;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-moz-range-thumb:active{background:#fff9}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb{-webkit-appearance:none;height:1rem;width:.5rem;border-radius:.125rem;background:#ffffffb3;box-shadow:none}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:hover{background:#fffc}#display-setting.svelte-d7tq3k input[type=range]:where(.svelte-d7tq3k)::-ms-thumb:active{background:#fff9}
+</style><script type="module" src="/_astro/page.Z8IJTFqj.js"></script></head> <body class=" min-h-screen transition " data-overlayscrollbars-initialize style="--bannerOffset: 15vh;--banner-height-home: 95vh;--banner-height: 65vh;--card-bg-light: rgba(255, 255, 255, 0.8);--card-bg-dark: rgba(18, 18, 18, 0.8);--border-radius: 25px;--card-blur: 2px;--bg-blur: 1px;--bg-linear-dark: linear-gradient(135deg, #145545, #3e235b,#1e0a0e);--bg-linear-light: linear-gradient(135deg, #2AA789, #8c51cd,#FF5577);--page-width: 75rem;"> <!-- 全局背景 --> <div class="bg-layer bg-color-layer" style="background-image: var(--bg-linear)" aria-hidden="true" data-astro-cid-wv33tfm4><div class="bg-layer bg-image-layer" style="background-repeat: repeat-x;-webkit-mask-image: url(/_astro/bg8.CZWiikjl.svg); background-position: center;background-color: #FFFFFF;" aria-hidden="true" data-astro-cid-wv33tfm4></div></div><!-- 内容层 --><div class="content-layer" data-astro-cid-wv33tfm4>     <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto"> <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all"> <div id="navbar" class="z-50"> <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation --> <div class="card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"> <a href="/" class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95"> <div class="flex flex-row text-[var(--primary)] items-center text-md"> <svg width="1em" height="1em" class="text-[1.75rem] mb-1 mr-2" data-icon="material-symbols:home-outline-rounded">   <symbol id="ai:material-symbols:home-outline-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h3v-5q0-.425.288-.712T10 13h4q.425 0 .713.288T15 14v5h3v-9l-6-4.5L6 10zm-2 0v-9q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 10v9q0 .825-.588 1.413T18 21h-4q-.425 0-.712-.288T13 20v-5h-2v5q0 .425-.288.713T10 21H6q-.825 0-1.412-.587T4 19m8-6.75"/></symbol><use href="#ai:material-symbols:home-outline-rounded"></use>  </svg> 硬件日记 </div> </a> <div class="hidden md:flex"> <a aria-label="主页" href="/" class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> <svg width="1.13em" height="1em" class="mr-[10px] text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]" data-icon="fa6-solid:house">   <symbol id="ai:fa6-solid:house" viewBox="0 0 576 512"><path fill="currentColor" d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1v16.2c0 22.1-17.9 40-40 40h-16c-1.1 0-2.2 0-3.3-.1c-1.4.1-2.8.1-4.2.1L416 512h-24c-22.1 0-40-17.9-40-40v-88c0-17.7-14.3-32-32-32h-64c-17.7 0-32 14.3-32 32v88c0 22.1-17.9 40-40 40h-55.9c-1.5 0-3-.1-4.5-.2c-1.2.1-2.4.2-3.6.2h-16c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9.1-2.8v-69.7h-32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7l255.4 224.5c8 7 12 15 11 24"/></symbol><use href="#ai:fa6-solid:house"></use>  </svg> 主页  </div> </a><a aria-label="关于我" href="/about" class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> <svg width="0.88em" height="1em" class="mr-[10px] text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]" data-icon="fa6-solid:user">   <symbol id="ai:fa6-solid:user" viewBox="0 0 448 512"><path fill="currentColor" d="M224 256a128 128 0 1 0 0-256a128 128 0 1 0 0 256m-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512h388.6c16.4 0 29.7-13.3 29.7-29.7c0-98.5-79.8-178.3-178.3-178.3z"/></symbol><use href="#ai:fa6-solid:user"></use>  </svg> 关于我  </div> </a><a aria-label="归档" href="/archive" class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> <svg width="1em" height="1em" class="mr-[10px] text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]" data-icon="fa6-solid:folder">   <symbol id="ai:fa6-solid:folder" viewBox="0 0 512 512"><path fill="currentColor" d="M64 480h384c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64H288c-10.1 0-19.6-4.7-25.6-12.8l-19.2-25.6C231.1 41.5 212.1 32 192 32H64C28.7 32 0 60.7 0 96v320c0 35.3 28.7 64 64 64"/></symbol><use href="#ai:fa6-solid:folder"></use>  </svg> 归档  </div> </a><a aria-label="友情链接" href="/friends" class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"> <div class="flex items-center"> <svg width="1em" height="1em" class="mr-[10px] text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]" data-icon="fa6-solid:envelope">   <symbol id="ai:fa6-solid:envelope" viewBox="0 0 512 512"><path fill="currentColor" d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4l217.6 163.2c11.4 8.5 27 8.5 38.4 0l217.6-163.2c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48zM0 176v208c0 35.3 28.7 64 64 64h384c35.3 0 64-28.7 64-64V176L294.4 339.2a63.9 63.9 0 0 1-76.8 0z"/></symbol><use href="#ai:fa6-solid:envelope"></use>  </svg> 友情链接  </div> </a> </div> <div class="flex"> <!--<SearchPanel client:load>--> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).only=e;window.dispatchEvent(new Event("astro:only"));})();</script><script>(()=>{var A=Object.defineProperty;var g=(i,o,a)=>o in i?A(i,o,{enumerable:!0,configurable:!0,writable:!0,value:a}):i[o]=a;var d=(i,o,a)=>g(i,typeof o!="symbol"?o+"":o,a);{let i={0:t=>m(t),1:t=>a(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(a(t)),5:t=>new Set(a(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>1/0*t},o=t=>{let[l,e]=t;return l in i?i[l](e):void 0},a=t=>t.map(o),m=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([l,e])=>[l,o(e)]));class y extends HTMLElement{constructor(){super(...arguments);d(this,"Component");d(this,"hydrator");d(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let c=this.querySelectorAll("astro-slot"),n={},h=this.querySelectorAll("template[data-astro-template]");for(let r of h){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(let r of c){let s=r.closest(this.tagName);s!=null&&s.isSameNode(this)&&(n[r.getAttribute("name")||"default"]=r.innerHTML)}let p;try{p=this.hasAttribute("props")?m(JSON.parse(this.getAttribute("props"))):{}}catch(r){let s=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(s+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${s}`,this.getAttribute("props"),r),r}let u;await this.hydrator(this)(this.Component,p,n,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});d(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),c.disconnect(),this.childrenConnectedCallback()},c=new MutationObserver(()=>{var n;((n=this.lastChild)==null?void 0:n.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});c.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}async start(){let e=JSON.parse(this.getAttribute("opts")),c=this.getAttribute("client");if(Astro[c]===void 0){window.addEventListener(`astro:${c}`,()=>this.start(),{once:!0});return}try{await Astro[c](async()=>{let n=this.getAttribute("renderer-url"),[h,{default:p}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),u=this.getAttribute("component-export")||"default";if(!u.includes("."))this.Component=h[u];else{this.Component=h;for(let f of u.split("."))this.Component=this.Component[f]}return this.hydrator=p,this.hydrate},e,this)}catch(n){console.error(`[astro-island] Error hydrating ${this.getAttribute("component-url")}`,n)}}attributeChangedCallback(){this.hydrate()}}d(y,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",y)}})();</script><astro-island uid="Z1IMwJD" component-url="/_astro/Search.C_ICKpZa.js" component-export="default" renderer-url="/_astro/client.svelte.DP8uZBKx.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;Search&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch"> <svg width="1em" height="1em" class="text-[1.25rem]" data-icon="material-symbols:palette-outline">   <symbol id="ai:material-symbols:palette-outline" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22q-2.05 0-3.875-.788t-3.187-2.15t-2.15-3.187T2 12q0-2.075.813-3.9t2.2-3.175T8.25 2.788T12.2 2q2 0 3.775.688t3.113 1.9t2.125 2.875T22 11.05q0 2.875-1.75 4.413T16 17h-1.85q-.225 0-.312.125t-.088.275q0 .3.375.863t.375 1.287q0 1.25-.687 1.85T12 22m-5.5-9q.65 0 1.075-.425T8 11.5t-.425-1.075T6.5 10t-1.075.425T5 11.5t.425 1.075T6.5 13m3-4q.65 0 1.075-.425T11 7.5t-.425-1.075T9.5 6t-1.075.425T8 7.5t.425 1.075T9.5 9m5 0q.65 0 1.075-.425T16 7.5t-.425-1.075T14.5 6t-1.075.425T13 7.5t.425 1.075T14.5 9m3 4q.65 0 1.075-.425T19 11.5t-.425-1.075T17.5 10t-1.075.425T16 11.5t.425 1.075T17.5 13M12 20q.225 0 .363-.125t.137-.325q0-.35-.375-.825T11.75 17.3q0-1.05.725-1.675T14.25 15H16q1.65 0 2.825-.962T20 11.05q0-3.025-2.312-5.038T12.2 4Q8.8 4 6.4 6.325T4 12q0 3.325 2.338 5.663T12 20"/></symbol><use href="#ai:material-symbols:palette-outline"></use>  </svg> </button> <astro-island uid="ZmLS6I" component-url="/_astro/LightDarkSwitch.DIDuy1qQ.js" component-export="default" renderer-url="/_astro/client.svelte.DP8uZBKx.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;LightDarkSwitch&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch"> <svg width="1em" height="1em" class="text-[1.25rem]" data-icon="material-symbols:menu-rounded">   <symbol id="ai:material-symbols:menu-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M4 18q-.425 0-.712-.288T3 17t.288-.712T4 16h16q.425 0 .713.288T21 17t-.288.713T20 18zm0-5q-.425 0-.712-.288T3 12t.288-.712T4 11h16q.425 0 .713.288T21 12t-.288.713T20 13zm0-5q-.425 0-.712-.288T3 7t.288-.712T4 6h16q.425 0 .713.288T21 7t-.288.713T20 8z"/></symbol><use href="#ai:material-symbols:menu-rounded"></use>  </svg> </button> </div> <div id="nav-menu-panel" class="float-panel float-panel-closed absolute transition-all fixed right-4 px-2 py-2"> <a href="/" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 主页 </div> <svg width="1em" height="1em" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <symbol id="ai:material-symbols:chevron-right-rounded" viewBox="0 0 24 24"><path fill="currentColor" d="M12.6 12L8.7 8.1q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.6 4.6q.15.15.213.325t.062.375t-.062.375t-.213.325l-4.6 4.6q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7z"/></symbol><use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/about" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 关于我 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/archive" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 归档 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a><a href="/friends" class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-8
+            hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
+        "> <div class="transition text-black/75 dark:text-white/75 font-bold group-hover:text-[var(--primary)] group-active:text-[var(--primary)]"> 友情链接 </div> <svg width="1em" height="1em" viewBox="0 0 24 24" class="transition text-[1.25rem] text-[var(--primary)]" data-icon="material-symbols:chevron-right-rounded">   <use href="#ai:material-symbols:chevron-right-rounded"></use>  </svg>  </a> </div> <astro-island uid="1FOrwm" component-url="/_astro/DisplaySettings.Cl75gO3I.js" component-export="default" renderer-url="/_astro/client.svelte.DP8uZBKx.js" props="{}" ssr client="only" opts="{&quot;name&quot;:&quot;DisplaySettings&quot;,&quot;value&quot;:&quot;svelte&quot;}"></astro-island> </div> </div> <script type="module">function c(){localStorage.theme==="dark"?(document.documentElement.classList.remove("dark"),localStorage.theme="light"):(document.documentElement.classList.add("dark"),localStorage.theme="dark")}function o(){let t=document.getElementById("scheme-switch");t&&(t.onclick=function(){c()});let n=document.getElementById("display-settings-switch");n&&(n.onclick=function(){let e=document.getElementById("display-setting");e&&e.classList.toggle("float-panel-closed")});let l=document.getElementById("nav-menu-switch");l&&(l.onclick=function(){let e=document.getElementById("nav-menu-panel");e&&e.classList.toggle("float-panel-closed")})}o();</script> <script>(function(){const scriptUrl = "/pagefind/pagefind.js";
 
-<span class="token comment"># 下面的是选填项，不写也没关系</span>
-<span class="token comment"># 如果哪天你的友链打不开了，我可以通过这个邮箱悄悄戳你，告诉你一声。</span>
-<span class="token comment"># 放心，这个邮箱不会公开显示。除非你告诉我可以，我才会把它加到介绍里。</span>
-<span class="token key atrule">email</span><span class="token punctuation">:</span> <span class="token punctuation">[</span>你的联系邮箱<span class="token punctuation">]</span> <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<p>当然，如果你有自己的交换格式，直接发过来也行。只是用上面的格式的话，我整理起来会快一点，能更快地让你的链接和大家见面。</p>
-<p>下面是小站的信息，加友链的时候可以用：</p>
-<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml">网站名称：硬件日记
-网站地址：https<span class="token punctuation">:</span>//ed333a.github.io/
-头像地址：https<span class="token punctuation">:</span>//ed333a.github.io/img/avatar.jpg
-网站介绍：记录嵌入式开发路上的成长点滴。
-邮箱：ed333.email@qq.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<div class="note warning no-icon flat"><h3 id="FAQ-你可能会想问的小问题"><a href="#FAQ-你可能会想问的小问题" class="headerlink" title="FAQ - 你可能会想问的小问题"></a>FAQ - 你可能会想问的小问题</h3><h4 id="1-为什么我的链接跑到-“失联友链”-里去了？"><a href="#1-为什么我的链接跑到-“失联友链”-里去了？" class="headerlink" title="1. 为什么我的链接跑到 “失联友链” 里去了？"></a>1. 为什么我的链接跑到 “失联友链” 里去了？</h4><p>别担心，这是因为小站有一个小机器人会定时看看大家的网站能不能正常打开。如果它暂时发现你的网站访问不了，就会先把链接挪到 “失联” 区。等你那边恢复访问了，它会再悄悄挪回来的。</p>
-<h4 id="2-友链被不小心删掉了怎么办？"><a href="#2-友链被不小心删掉了怎么办？" class="headerlink" title="2. 友链被不小心删掉了怎么办？"></a>2. 友链被不小心删掉了怎么办？</h4><p>如果我发现你的网站失联超过一阵子，会先用邮箱给你留个言提醒一下。麻烦你在<strong>一周内</strong>通过邮箱回我新的链接地址就好。如果<strong>一周后</strong>没有收到回复，友链可能会暂时被移除。不过没关系，之后随时欢迎重新发邮件申请！</p>
-<h4 id="3-我的头像-介绍更新了，怎么改？"><a href="#3-我的头像-介绍更新了，怎么改？" class="headerlink" title="3. 我的头像/介绍更新了，怎么改？"></a>3. 我的头像/介绍更新了，怎么改？</h4><p>很简单，把更新后的信息按照上面的格式再发一封邮件给我就行。我会在三天内帮你更新，搞定后第一时间回复你。</p>
-<h4 id="4-交换友链有什么小要求吗？"><a href="#4-交换友链有什么小要求吗？" class="headerlink" title="4. 交换友链有什么小要求吗？"></a>4. 交换友链有什么小要求吗？</h4><ul>
-<li>在你申请之前，要先把我的链接加到你的网站上哦。</li>
-<li>网站名称、地址、头像、介绍这几项最好能填全，这样大家点进来看着也会很舒服。</li>
-<li>为了大家访问安全，你的网站需要请务必开启 HTTPS 协议访问哦。</li>
-<li>建站多久都欢迎，但是<strong>原创文章少于 10 篇的网站，我会暂时不收录哒</strong>。</li>
-<li><span style="color: #22ab00;">有点小广告完全没问题。</span><span style="color: red;">只要不打扰大家看文章就好。不过<b>纯商业推广性质的网站</b>可能就没办法收录啦。</span></li>
-<li><p style="color: red;">最后也是最重要的，网站内容请遵守中华人民共和国相关的法律法规，不要有任何违法、违规或侵权的内容。</p></li>
-</ul>
-<h4 id="5-为什么我更新了头像，页面上还是旧的？"><a href="#5-为什么我更新了头像，页面上还是旧的？" class="headerlink" title="5. 为什么我更新了头像，页面上还是旧的？"></a>5. 为什么我更新了头像，页面上还是旧的？</h4><p>为了保证大家的访问体验，优化访问速度，所有友链的头像和封面图都会被缓存下来。如果你更新了图片，记得发邮件告诉我一声，我会在<strong>三日内</strong>帮你刷静态资源，处理好之后会给你回信哒。</p>
-</div>
-</div></div></div></main><footer id="footer"><div class="footer-other"><div class="site-runtime" id="site-runtime"> </div><div class="footer-copyright"><span class="copyright">©&nbsp;2026 By TYH123</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div><div class="footer_custom_text">本博客所有文章除特别声明外，均采用 
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"> CC BY-NC-SA 4.0 </a> 
-许可协议。</div></div><script src="/js/site_runtime.js"> </script></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1.9/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
-  const parseViewBox = viewBox => {
-    if (!viewBox) return null
-    const parts = viewBox.trim().split(/[\s,]+/).map(n => Number(n))
-    if (parts.length !== 4 || parts.some(n => Number.isNaN(n))) return null
-    return parts
-  }
-
-  const getSvgViewBox = svg => {
-    const attr = parseViewBox(svg.getAttribute('viewBox'))
-    if (attr) return attr
-
-    // Fallback: use bbox to build a viewBox
+async function loadPagefind() {
     try {
-      const bbox = svg.getBBox()
-      if (bbox && bbox.width && bbox.height) return [bbox.x, bbox.y, bbox.width, bbox.height]
-    } catch (e) {
-      // getBBox may fail on some edge cases; ignore
-    }
-
-    const w = Number(svg.getAttribute('width')) || 0
-    const h = Number(svg.getAttribute('height')) || 0
-    if (w > 0 && h > 0) return [0, 0, w, h]
-    return [0, 0, 100, 100]
-  }
-
-  const setSvgViewBox = (svg, vb) => {
-    svg.setAttribute('viewBox', `${vb[0]} ${vb[1]} ${vb[2]} ${vb[3]}`)
-  }
-
-  const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
-
-  const openSvgInNewTab = ({ source, initViewBox }) => {
-    const getClonedSvg = () => {
-      if (typeof source === 'string') {
-        const template = document.createElement('template')
-        template.innerHTML = source.trim()
-        const svg = template.content.querySelector('svg')
-        return svg ? svg.cloneNode(true) : null
-      }
-      if (source && typeof source.cloneNode === 'function') {
-        return source.cloneNode(true)
-      }
-      return null
-    }
-
-    const clone = getClonedSvg()
-    if (!clone) return
-    if (initViewBox && initViewBox.length === 4) {
-      clone.setAttribute('viewBox', initViewBox.join(' '))
-    }
-    if (!clone.getAttribute('xmlns')) clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg')
-    if (!clone.getAttribute('xmlns:xlink') && clone.outerHTML.includes('xlink:')) {
-      clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink')
-    }
-    // inject background to match current theme
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark'
-    const bg = getComputedStyle(document.body).backgroundColor || (isDark ? '#1e1e1e' : '#ffffff')
-    if (!clone.style.background) clone.style.background = bg
-
-    const serializer = new XMLSerializer()
-    const svgSource = serializer.serializeToString(clone)
-    const htmlSource = `<!doctype html><html><head><meta charset="utf-8" />
-      <style>
-        html, body { width: 100%; height: 100%; margin: 0; display: flex; align-items: center; justify-content: center; background: ${bg}; }
-        svg { max-width: 100%; max-height: 100%; height: auto; width: auto; }
-      </style>
-      </head><body>${svgSource}</body></html>`
-    const blob = new Blob([htmlSource], { type: 'text/html;charset=utf-8' })
-    const url = URL.createObjectURL(blob)
-    window.open(url, '_blank', 'noopener')
-    setTimeout(() => URL.revokeObjectURL(url), 30000)
-  }
-
-  const attachMermaidViewerButton = wrap => {
-    let btn = wrap.querySelector('.mermaid-open-btn')
-    if (!btn) {
-      btn = document.createElement('button')
-      btn.type = 'button'
-      btn.className = 'mermaid-open-btn'
-      wrap.appendChild(btn)
-    }
-
-    btn.innerHTML = '<i class="fa fa-search fa-fw" aria-hidden="true"></i>'
-
-    if (!btn.__mermaidViewerBound) {
-      btn.addEventListener('click', e => {
-        e.preventDefault()
-        e.stopPropagation()
-        const svg = wrap.__mermaidOriginalSvg || wrap.querySelector('svg')
-        if (!svg) return
-        const initViewBox = wrap.__mermaidInitViewBox
-        if (typeof svg === 'string') {
-          openSvgInNewTab({ source: svg, initViewBox })
-          return
+        const response = await fetch(scriptUrl, { method: 'HEAD' });
+        if (!response.ok) {
+            throw new Error(`Pagefind script not found: ${response.status}`);
         }
-        openSvgInNewTab({ source: svg, initViewBox })
-      })
-      btn.__mermaidViewerBound = true
+
+        const pagefind = await import(scriptUrl);
+
+        await pagefind.options({
+            excerptLength: 20
+        });
+
+        window.pagefind = pagefind;
+
+        document.dispatchEvent(new CustomEvent('pagefindready'));
+        console.log('Pagefind loaded and initialized successfully, event dispatched.');
+    } catch (error) {
+        console.error('Failed to load Pagefind:', error);
+        window.pagefind = {
+            search: () => Promise.resolve({ results: [] }),
+            options: () => Promise.resolve(),
+        };
+        document.dispatchEvent(new CustomEvent('pagefindloaderror'));
+        console.log('Pagefind load error, event dispatched.');
     }
-  }
+}
 
-  // Zoom around a point (px, py) in the SVG viewport (in viewBox coordinates)
-  const zoomAtPoint = (vb, factor, px, py) => {
-    const w = vb[2] * factor
-    const h = vb[3] * factor
-    const nx = px - (px - vb[0]) * factor
-    const ny = py - (py - vb[1]) * factor
-    return [nx, ny, w, h]
-  }
-
-  const initMermaidGestures = wrap => {
-    const svg = wrap.querySelector('svg')
-    if (!svg) return
-
-    // Ensure viewBox exists so gestures always work
-    const initVb = getSvgViewBox(svg)
-    wrap.__mermaidInitViewBox = initVb
-    wrap.__mermaidCurViewBox = initVb.slice()
-    setSvgViewBox(svg, initVb)
-
-    // Avoid binding multiple times on themeChange/pjax
-    if (wrap.__mermaidGestureBound) return
-    wrap.__mermaidGestureBound = true
-
-    // Helper: map client (viewport) coordinate -> viewBox coordinate
-    const clientToViewBox = (clientX, clientY) => {
-      const rect = svg.getBoundingClientRect()
-      const vb = wrap.__mermaidCurViewBox || getSvgViewBox(svg)
-      const x = vb[0] + (clientX - rect.left) * (vb[2] / rect.width)
-      const y = vb[1] + (clientY - rect.top) * (vb[3] / rect.height)
-      return { x, y, rect, vb }
-    }
-
-    const state = {
-      pointers: new Map(),
-      startVb: null,
-      startDist: 0,
-      startCenter: null
-    }
-
-    const clampVb = vb => {
-      const init = wrap.__mermaidInitViewBox || vb
-      const minW = init[2] * 0.1
-      const maxW = init[2] * 10
-      const minH = init[3] * 0.1
-      const maxH = init[3] * 10
-      vb[2] = clamp(vb[2], minW, maxW)
-      vb[3] = clamp(vb[3], minH, maxH)
-      return vb
-    }
-
-    const setCurVb = vb => {
-      vb = clampVb(vb)
-      wrap.__mermaidCurViewBox = vb
-      setSvgViewBox(svg, vb)
-    }
-
-    const onPointerDown = e => {
-      // Allow only primary button for mouse
-      if (e.pointerType === 'mouse' && e.button !== 0) return
-      svg.setPointerCapture(e.pointerId)
-      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
-
-      if (state.pointers.size === 1) {
-        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
-      } else if (state.pointers.size === 2) {
-        const pts = [...state.pointers.values()]
-        const dx = pts[0].x - pts[1].x
-        const dy = pts[0].y - pts[1].y
-        state.startDist = Math.hypot(dx, dy)
-        state.startVb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
-        state.startCenter = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 }
-      }
-    }
-
-    const onPointerMove = e => {
-      if (!state.pointers.has(e.pointerId)) return
-      state.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
-
-      // Pan with 1 pointer
-      if (state.pointers.size === 1 && state.startVb) {
-        const p = [...state.pointers.values()][0]
-        const prev = { x: e.clientX - e.movementX, y: e.clientY - e.movementY }
-        // movementX/Y unreliable on touch, compute from stored last position
-        const last = wrap.__mermaidLastSinglePointer || p
-        const dxClient = p.x - last.x
-        const dyClient = p.y - last.y
-        wrap.__mermaidLastSinglePointer = p
-
-        const { rect } = clientToViewBox(p.x, p.y)
-        const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
-        const dx = dxClient * (vb[2] / rect.width)
-        const dy = dyClient * (vb[3] / rect.height)
-        setCurVb([vb[0] - dx, vb[1] - dy, vb[2], vb[3]])
-        return
-      }
-
-      // Pinch zoom with 2 pointers
-      if (state.pointers.size === 2 && state.startVb && state.startDist > 0) {
-        const pts = [...state.pointers.values()]
-        const dx = pts[0].x - pts[1].x
-        const dy = pts[0].y - pts[1].y
-        const dist = Math.hypot(dx, dy)
-        if (!dist) return
-        const factor = state.startDist / dist // dist bigger => zoom in (viewBox smaller)
-
-        const cx = (pts[0].x + pts[1].x) / 2
-        const cy = (pts[0].y + pts[1].y) / 2
-        const centerClient = { x: cx, y: cy }
-
-        const pxy = clientToViewBox(centerClient.x, centerClient.y)
-        const cpx = pxy.x
-        const cpy = pxy.y
-
-        const vb = zoomAtPoint(state.startVb, factor, cpx, cpy)
-        setCurVb(vb)
-      }
-    }
-
-    const onPointerUpOrCancel = e => {
-      state.pointers.delete(e.pointerId)
-      if (state.pointers.size === 0) {
-        state.startVb = null
-        state.startDist = 0
-        state.startCenter = null
-        wrap.__mermaidLastSinglePointer = null
-      } else if (state.pointers.size === 1) {
-        // reset single pointer baseline to avoid jump
-        wrap.__mermaidLastSinglePointer = [...state.pointers.values()][0]
-      }
-    }
-
-    // Wheel zoom (mouse/trackpad)
-    const onWheel = e => {
-      // ctrlKey on mac trackpad pinch; we treat both as zoom
-      e.preventDefault()
-      const delta = e.deltaY
-      const zoomFactor = delta > 0 ? 1.1 : 0.9
-      const { x, y } = clientToViewBox(e.clientX, e.clientY)
-      const vb = (wrap.__mermaidCurViewBox || getSvgViewBox(svg)).slice()
-      setCurVb(zoomAtPoint(vb, zoomFactor, x, y))
-    }
-
-    const onDblClick = () => {
-      const init = wrap.__mermaidInitViewBox
-      if (!init) return
-      wrap.__mermaidCurViewBox = init.slice()
-      setSvgViewBox(svg, init)
-    }
-
-    svg.addEventListener('pointerdown', onPointerDown)
-    svg.addEventListener('pointermove', onPointerMove)
-    svg.addEventListener('pointerup', onPointerUpOrCancel)
-    svg.addEventListener('pointercancel', onPointerUpOrCancel)
-    svg.addEventListener('wheel', onWheel, { passive: false })
-    svg.addEventListener('dblclick', onDblClick)
-  }
-
-  const runMermaid = ele => {
-    window.loadMermaid = true
-    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
-
-    ele.forEach((item, index) => {
-      const mermaidSrc = item.firstElementChild
-
-      // Clear old render (themeChange/pjax will rerun)
-      const oldSvg = item.querySelector('svg')
-      if (oldSvg) oldSvg.remove()
-      item.__mermaidGestureBound = false
-
-      const config = mermaidSrc.dataset.config ? JSON.parse(mermaidSrc.dataset.config) : {}
-      if (!config.theme) {
-        config.theme = theme
-      }
-      const mermaidThemeConfig = `%%{init: ${JSON.stringify(config)}}%%\n`
-      const mermaidID = `mermaid-${index}`
-      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
-
-      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
-      const renderMermaid = svg => {
-        mermaidSrc.insertAdjacentHTML('afterend', svg)
-        if (true) initMermaidGestures(item)
-        item.__mermaidOriginalSvg = svg
-        if (false) attachMermaidViewerButton(item)
-      }
-
-
-      // mermaid v9 and v10 compatibility
-      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
-    })
-  }
-
-  const codeToMermaid = () => {
-    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
-    if (codeMermaidEle.length === 0) return
-
-    codeMermaidEle.forEach(ele => {
-      const preEle = document.createElement('pre')
-      preEle.className = 'mermaid-src'
-      preEle.hidden = true
-      preEle.textContent = ele.textContent
-      const newEle = document.createElement('div')
-      newEle.className = 'mermaid-wrap'
-      newEle.appendChild(preEle)
-      ele.parentNode.replaceWith(newEle)
-    })
-  }
-
-  const loadMermaid = () => {
-    if (true) codeToMermaid()
-    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
-    if ($mermaid.length === 0) return
-
-    const runMermaidFn = () => runMermaid($mermaid)
-    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
-    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid@11.12.2/dist/mermaid.min.js').then(runMermaidFn)
-  }
-
-  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
-  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
-})()</script></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
-POWERMODE.shake = true;
-POWERMODE.mobile = true;
-document.body.addEventListener('input', POWERMODE);
-</script><script async="" data-pjax="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"></div><hr><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadPagefind);
+} else {
+    loadPagefind();
+}
+})();</script> </div> </div>  <div class="absolute w-full z-30 pointer-events-none"> <!-- The pointer-events-none here prevent blocking the click event of the TOC --> <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto"> <main id="swup-container" class="mx-[20px] transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden"> <div id="content-wrapper"> <!-- the overflow-hidden here prevent long text break the layout--> <!-- make id different from windows.swup global property -->  <div class="card-base mt-[20px] relative-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 transition-all duration-300" data-astro-cid-spp2p3no> <!-- 头部内容区域 --> <div class="text-center mb-12" data-astro-cid-spp2p3no> <h1 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-slate-800 via-indigo-800 to-purple-800 bg-clip-text text-transparent tracking-tight drop-shadow-sm" data-astro-cid-spp2p3no>
+🔗 友情链接
+</h1> <div class="inline-flex items-center gap-2 mt-5 px-5 py-1.5 bg-white/40 backdrop-blur-md rounded-full text-indigo-800 text-sm font-medium border border-white/50 shadow-sm" data-astro-cid-spp2p3no> <span data-astro-cid-spp2p3no>✨</span> 一群非常好的小伙伴们
+</div> <p class="text-slate-700 max-w-2xl mx-auto mt-4 text-base font-medium drop-shadow-sm" data-astro-cid-spp2p3no>很高兴与优秀的你们相遇于此，愿我们彼此照亮，在各自的路上走得更远。</p> </div> <!-- 分组 --> <div id="links-group" class="space-y-14" data-astro-cid-spp2p3no> <div class="group-section" data-astro-cid-spp2p3no>  <div class="border-l-4 border-blue-500/80 pl-5 mb-6" data-astro-cid-spp2p3no> <div class="flex items-center gap-3 flex-wrap" data-astro-cid-spp2p3no> <h2 class="text-2xl md:text-3xl font-bold text-slate-800 flex items-center gap-2 drop-shadow-sm" data-astro-cid-spp2p3no> 鸣谢 </h2> <span class="text-xs font-semibold bg-blue-200/70 backdrop-blur-sm text-blue-900 rounded-full px-3 py-1 border border-white/40" data-astro-cid-spp2p3no> 3个项目/服务 </span> </div> <p class="text-slate-700 text-sm md:text-base mt-2 max-w-3xl bg-white/30 backdrop-blur-sm rounded-xl px-4 py-2 border border-white/20" data-astro-cid-spp2p3no> 感谢以下项目/服务, 为本站提供了建站基础。博客的成功搭建离不开以下免费项目的贡献。 </p> </div>  <div class="friendlink-cards-container" data-astro-cid-spp2p3no> <div class="friend-card" data-astro-cid-spp2p3no> <div class="frlink-cover" style="background-size:cover; background-image: url(/img/friend-link/thanks/astro.svg);" data-astro-cid-spp2p3no> <div class="absolute inset-0 bg-black/20" data-astro-cid-spp2p3no></div> <div class="frlink-name" data-astro-cid-spp2p3no>Astro</div> </div> <div class="p-5" data-astro-cid-spp2p3no> <div class="flex items-start gap-4 pb-2" data-astro-cid-spp2p3no>  <div class="link-icon" style="background-image: #09947A; background-color: #09947A;" data-astro-cid-spp2p3no>A</div> <div class="flex-1" data-astro-cid-spp2p3no> <h3 class="text-xl font-bold text-slate-800 hover:text-blue-700 transition" data-astro-cid-spp2p3no> <a href="https://astro.build/" target="_blank" rel="noopener noreferrer" data-astro-cid-spp2p3no> Astro </a> </h3> <div class="link-tag" data-astro-cid-spp2p3no>🚧 建站基础</div> </div> </div> <div class="text-slate-700 text-sm leading-relaxed my-3" data-astro-cid-spp2p3no> <p data-astro-cid-spp2p3no>专为内容驱动型网站打造的 Web 框架, 具有响应速度快的优点。</p> </div> <div class="pt-3 mt-auto flex justify-end" data-astro-cid-spp2p3no> <a href="https://astro.build/" target="_blank" rel="noopener noreferrer" class="goto-link" data-astro-cid-spp2p3no>访问网站
+<span class="visit-link-arrow inline-block" data-astro-cid-spp2p3no>→</span> </a> </div> </div> </div><div class="friend-card" data-astro-cid-spp2p3no> <div class="frlink-cover" style="background-size:cover; background-image: url(/favicon/favicon-light-128.png);" data-astro-cid-spp2p3no> <div class="absolute inset-0 bg-black/20" data-astro-cid-spp2p3no></div> <div class="frlink-name" data-astro-cid-spp2p3no>Fuwari</div> </div> <div class="p-5" data-astro-cid-spp2p3no> <div class="flex items-start gap-4 pb-2" data-astro-cid-spp2p3no>  <div class="link-icon" style="background-image: #CB550A; background-color: #CB550A;" data-astro-cid-spp2p3no>F</div> <div class="flex-1" data-astro-cid-spp2p3no> <h3 class="text-xl font-bold text-slate-800 hover:text-blue-700 transition" data-astro-cid-spp2p3no> <a href="https://github.com/saicaca/fuwari" target="_blank" rel="noopener noreferrer" data-astro-cid-spp2p3no> Fuwari </a> </h3> <div class="link-tag" data-astro-cid-spp2p3no>⚒️ 模板</div> </div> </div> <div class="text-slate-700 text-sm leading-relaxed my-3" data-astro-cid-spp2p3no> <p data-astro-cid-spp2p3no>一个动画流畅的 Astro 框架模板, 本站基于该模板进行修改。</p> </div> <div class="pt-3 mt-auto flex justify-end" data-astro-cid-spp2p3no> <a href="https://github.com/saicaca/fuwari" target="_blank" rel="noopener noreferrer" class="goto-link" data-astro-cid-spp2p3no>访问网站
+<span class="visit-link-arrow inline-block" data-astro-cid-spp2p3no>→</span> </a> </div> </div> </div><div class="friend-card" data-astro-cid-spp2p3no> <div class="frlink-cover" style="background-size:cover; background-image: url(/img/friend-link/thanks/jsdelivr.png);" data-astro-cid-spp2p3no> <div class="absolute inset-0 bg-black/20" data-astro-cid-spp2p3no></div> <div class="frlink-name" data-astro-cid-spp2p3no>JSDelivr</div> </div> <div class="p-5" data-astro-cid-spp2p3no> <div class="flex items-start gap-4 pb-2" data-astro-cid-spp2p3no>  <div class="link-icon" style="background-image: #185AC0; background-color: #185AC0;" data-astro-cid-spp2p3no>J</div> <div class="flex-1" data-astro-cid-spp2p3no> <h3 class="text-xl font-bold text-slate-800 hover:text-blue-700 transition" data-astro-cid-spp2p3no> <a href="https://www.jsdelivr.com/" target="_blank" rel="noopener noreferrer" data-astro-cid-spp2p3no> JSDelivr </a> </h3> <div class="link-tag" data-astro-cid-spp2p3no>提供 CDN 加速服务</div> </div> </div> <div class="text-slate-700 text-sm leading-relaxed my-3" data-astro-cid-spp2p3no> <p data-astro-cid-spp2p3no>感谢 JSDelivr 为本站的样式文件提供 cdn 加速服务。</p> </div> <div class="pt-3 mt-auto flex justify-end" data-astro-cid-spp2p3no> <a href="https://www.jsdelivr.com/" target="_blank" rel="noopener noreferrer" class="goto-link" data-astro-cid-spp2p3no>访问网站
+<span class="visit-link-arrow inline-block" data-astro-cid-spp2p3no>→</span> </a> </div> </div> </div> </div> </div> </div> <!-- 页脚 --> <div class="mt-12 pt-6 border-t border-white/40 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-700" data-astro-cid-spp2p3no> <div class="bg-white/40 backdrop-blur-md px-4 py-1.5 rounded-full text-slate-800 text-xs md:text-sm border border-white/40 shadow-sm" data-astro-cid-spp2p3no>
+🤝 交换链接 & 建议: <a href="mailto:friends@linkhub.dev" class="font-medium text-blue-700 hover:underline" data-astro-cid-spp2p3no>friends@linkhub.dev</a> </div> <div class="flex items-center gap-1 bg-white/30 backdrop-blur-sm px-3 py-1 rounded-full" data-astro-cid-spp2p3no> <span data-astro-cid-spp2p3no>🌐</span> <span data-astro-cid-spp2p3no>欢迎您成为本站的一员</span> </div> </div> </div>  <div class="footer col-span-2 hidden lg:block"> <div class="p-[20px] my-[20px] w-fill card-base transition border-dashed border-[oklch(85%_0.01_var(--hue))] dark:border-white/15 rounded-2xl mb-12 flex flex-col items-center justify-center px-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright" class="text-[16px]">2026 Your Name.</span> <span class="text-[16px]">LICENSE: <a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY-NC-SA 4.0</a></span> /
+<a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br> <span class="text-[16px]">Framework:</span> <a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="https://astro.build">Astro</a> |
+<span class="text-[16px]">Template:</span> <a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="https://github.com/ed333a/tyhFuwari">tyhFuwari</a> |
+<span class="text-[16px]">Forked from:</span> <a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </div> <div class="footer col-span-2 block lg:hidden"> <div class="p-[20px] my-[20px] w-fill card-base transition border-dashed border-[oklch(85%_0.01_var(--hue))] dark:border-white/15 rounded-2xl mb-12 flex flex-col items-center justify-center px-6"> <div class="transition text-50 text-sm text-center">
+&copy; <span id="copyright" class="text-[16px]">2026 Your Name.</span> <span class="text-[16px]">LICENSE: <a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC-BY-NC-SA 4.0</a></span> /
+<a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="/rss.xml">RSS</a> /
+<a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="/sitemap-index.xml">Sitemap</a><br> <span class="text-[16px]">Framework:</span> <a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="https://astro.build">Astro</a> |
+<span class="text-[16px]">Template:</span> <a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="https://github.com/ed333a/tyhFuwari">tyhFuwari</a> |
+<span class="text-[16px]">Forked from:</span> <a class="transition link text-[var(--primary)] text-[16px] font-medium" target="_blank" href="https://github.com/saicaca/fuwari">Fuwari</a> </div> </div> </div> </main> </div> </div>   </div> <!-- increase the page height during page transition to prevent the scrolling animation from jumping --> <div id="page-height-extend" class="hidden h-[300vh]" style="--bannerOffset: 15vh;--banner-height-home: 95vh;--banner-height: 65vh;--card-bg-light: rgba(255, 255, 255, 0.8);--card-bg-dark: rgba(18, 18, 18, 0.8);--border-radius: 25px;--card-blur: 2px;--bg-blur: 1px;--bg-linear-dark: linear-gradient(135deg, #145545, #3e235b,#1e0a0e);--bg-linear-light: linear-gradient(135deg, #2AA789, #8c51cd,#FF5577);--page-width: 75rem;"></div>  <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.DAHrxWCB.js"></script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_1_lang.C0Ha1T9v.js"></script></body></html> 
