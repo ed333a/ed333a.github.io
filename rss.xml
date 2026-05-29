@@ -1,4 +1,46 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>硬件日记</title><description>日常分享 · 硬件设计 · 经验踩坑</description><link>https://blog.tyh123.top/</link><language>zh_CN</language><item><title>[blog-MT-03] - 通过域名访问宝塔面板，并设置反向代理来移除端口号</title><link>https://blog.tyh123.top/posts/435c3f95/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/435c3f95/</guid><pubDate>Wed, 27 May 2026 21:34:08 GMT</pubDate><content:encoded>&lt;h3&gt;前言&lt;/h3&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>硬件日记</title><description>日常分享 · 硬件设计 · 经验踩坑</description><link>https://blog.tyh123.top/</link><language>zh_CN</language><item><title>[blog-MT-04] - 用 Umami 为博客搭建数据统计服务</title><link>https://blog.tyh123.top/posts/70562cef/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/70562cef/</guid><pubDate>Fri, 29 May 2026 14:42:31 GMT</pubDate><content:encoded>&lt;h2&gt;需要做的工作&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;拥有一台云服务器&lt;/li&gt;
+&lt;li&gt;拥有一个已经部署好的 umami 实例，本篇会介绍如何部署 umami 实例&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;部署 umami 实例&lt;/h2&gt;
+&lt;p&gt;这里采用 docker 安装，在这之前你需要在云服务器上安装好 &lt;code&gt;docker&lt;/code&gt; 服务，推荐使用&lt;a href=&quot;https://www.bt.cn/new/index.html&quot;&gt;宝塔面板&lt;/a&gt;来一键安装 docker 服务，本篇基于宝塔面板来介绍。&lt;/p&gt;
+&lt;p&gt;首先需要将 umami 的 github 仓库克隆下来，存放位置不做要求，你自己记得就行。我存放在了 &lt;code&gt;/www/wwwroot&lt;/code&gt; 这个路径下&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ git clone https://github.com/umami-software/umami.git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后进入刚刚克隆好的仓库目录下，找到 &lt;code&gt;docker-compose.yml&lt;/code&gt;, 修改数据库的名字&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/blog/04/change-doker-compose.png&quot; alt=&quot;change-doker-compose&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;以下内容不修改也是可以的，但是为了安全起见建议修改&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;ports&lt;/strong&gt;: umami 实例的端口映射，建议修改一下&lt;strong&gt;宿主机&lt;/strong&gt;的端口(冒号前面的)，不要用默认的端口。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DATABASE_URL&lt;/strong&gt;: 格式为 &lt;code&gt;postgresql://用户名:密码@db:端口号/数据库名&lt;/code&gt; 这里的用户名、密码、数据库名对应 &lt;code&gt;db&lt;/code&gt; 中 的 &lt;code&gt;POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB&lt;/code&gt; 这三个值，端口号目前我不知道怎么改，如果有知道的大佬可以在评论区评论以下（&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;APP_SECRET&lt;/strong&gt;: 改成一串随机的字符串&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB&lt;/strong&gt;: 在上面已经提到了，是数据库的用户名、密码、数据库名。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;改完配置之后运行下面的命令:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ docker compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;之后在宝塔面板的 Docker 服务中就可以看到我们刚刚创建好的两个容器了，一个是 umami，另外一个是数据库。
+&lt;img src=&quot;/img/posts/blog/04/docker-containers.png&quot; alt=&quot;docker-containers&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;进入 umami 后台&lt;/h2&gt;
+&lt;p&gt;部署完成后，可以访问 &lt;code&gt;http://服务器公网ip:端口(宿主机)&lt;/code&gt; 进入 umami 后台了，默认用户名和密码为 &lt;code&gt;admin&lt;/code&gt; 和 &lt;code&gt;umami&lt;/code&gt;,&lt;/p&gt;
+&lt;p&gt;:::tip
+也可以使用反向代理将域名解析到你的服务器 ip 上去掉端口，之前有介绍过这里就不说了。
+:::&lt;/p&gt;
+&lt;h3&gt;创建网站&lt;/h3&gt;
+&lt;p&gt;在 umami 后台中依次点击 &lt;code&gt;网站 -&amp;gt; 添加网站&lt;/code&gt;，之后输入网站名称和网站的 &lt;strong&gt;域名(不带 &lt;code&gt;https://&lt;/code&gt;)&lt;/strong&gt; 就好了&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/blog/04/add-website.png&quot; alt=&quot;add website&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;:::note
+初次进入界面时语言可能是英文，这时可以点击左下角 &lt;code&gt;admin -&amp;gt; Language -&amp;gt; 往下滑找到中文&lt;/code&gt; 就可以改成中文了。
+:::&lt;/p&gt;
+&lt;h3&gt;开始统计数据&lt;/h3&gt;
+&lt;p&gt;点击右侧的 &quot;编辑&quot; 图标
+&lt;img src=&quot;/img/posts/blog/04/edit-website.png&quot; alt=&quot;edit website&quot; /&gt;
+找到 &quot;跟踪代码&quot; 块, 将这部分代码复制到 &lt;code&gt;&amp;lt;header&amp;gt; ... &amp;lt;/header&amp;gt;&lt;/code&gt; 标签页内即可开始跟踪数据。
+&lt;img src=&quot;/img/posts/blog/04/tracking-code.png&quot; alt=&quot;Tracking code&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;分享数据&lt;/h3&gt;
+&lt;p&gt;在编辑网站页面找到 &quot;分享&quot; 块，点击添加，选择你要分享的数据，选择好后点击保存会生成一个分享链接，将这个链接分享给他人就可以了。&lt;/p&gt;
+</content:encoded></item><item><title>[blog-MT-03] - 通过域名访问宝塔面板，并设置反向代理来移除端口号</title><link>https://blog.tyh123.top/posts/435c3f95/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/435c3f95/</guid><pubDate>Wed, 27 May 2026 21:34:08 GMT</pubDate><content:encoded>&lt;h3&gt;前言&lt;/h3&gt;
 &lt;p&gt;为了给博客搭建评论系统，我购买了一台云服务器来托管评论，选用的评论系统是 &lt;a href=&quot;https://artalk.js.org/&quot;&gt;Artalk&lt;/a&gt;, 在折腾服务器的过程中，自然少不了配置宝塔面板。但通过 IP + 端口 的方式访问面实在是不太优雅。因此在这篇记录中，我会介绍如何将域名解析到宝塔面板，并通过反向代理去掉端口号，实现更简洁的访问方式。&lt;/p&gt;
 &lt;h3&gt;为域名添加 DNS 解析记录&lt;/h3&gt;
 &lt;p&gt;添加记录很简单，我这里使用的是 cloudflare dns 解析，添加一个 A 记录解析到云服务器的公网 ip 即可。&lt;/p&gt;
