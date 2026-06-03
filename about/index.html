@@ -185,39 +185,39 @@ if (document.readyState === 'loading') {
 <li><a href="https://www.jsdelivr.com"><strong>jsdelivr</strong></a>: 为本站提供免费的 CDN 加速服务。</li>
 <li><a href="https://artalk.js.org/"><strong>Artalk</strong></a>: 本站的评论系统。</li>
 </ul></section>
-<section><h1 id="模板来源">模板来源<a class="anchor" href="#模板来源"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><p><strong>现有的模板基于以下框架修改而来</strong></p><a id="GCw8xafj-card" class="card-github fetch-waiting no-styling" href="https://github.com/saicaca/fuwari" target="_blank" repo="saicaca/fuwari"><div class="gc-titlebar"><div class="gc-titlebar-left"><div class="gc-owner"><div id="GCw8xafj-avatar" class="gc-avatar"></div><div class="gc-user">saicaca</div></div><div class="gc-divider">/</div><div class="gc-repo">fuwari</div></div><div class="github-logo"></div></div><div id="GCw8xafj-description" class="gc-description">Waiting for api.github.com...</div><div class="gc-infobar"><div id="GCw8xafj-stars" class="gc-stars">00K</div><div id="GCw8xafj-forks" class="gc-forks">0K</div><div id="GCw8xafj-license" class="gc-license">0K</div><span id="GCw8xafj-language" class="gc-language">Waiting...</span></div><script id="GCw8xafj-script" type="text/javascript" defer>
+<section><h1 id="模板来源">模板来源<a class="anchor" href="#模板来源"><span class="anchor-icon" data-pagefind-ignore="">#</span></a></h1><p><strong>现有的模板基于以下框架修改而来</strong></p><a id="GC5hmxds-card" class="card-github fetch-waiting no-styling" href="https://github.com/saicaca/fuwari" target="_blank" repo="saicaca/fuwari"><div class="gc-titlebar"><div class="gc-titlebar-left"><div class="gc-owner"><div id="GC5hmxds-avatar" class="gc-avatar"></div><div class="gc-user">saicaca</div></div><div class="gc-divider">/</div><div class="gc-repo">fuwari</div></div><div class="github-logo"></div></div><div id="GC5hmxds-description" class="gc-description">Waiting for api.github.com...</div><div class="gc-infobar"><div id="GC5hmxds-stars" class="gc-stars">00K</div><div id="GC5hmxds-forks" class="gc-forks">0K</div><div id="GC5hmxds-license" class="gc-license">0K</div><span id="GC5hmxds-language" class="gc-language">Waiting...</span></div><script id="GC5hmxds-script" type="text/javascript" defer>
       fetch('https://api.github.com/repos/saicaca/fuwari', { referrerPolicy: "no-referrer" }).then(response => response.json()).then(data => {
-        document.getElementById('GCw8xafj-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
-        document.getElementById('GCw8xafj-language').innerText = data.language;
-        document.getElementById('GCw8xafj-forks').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.forks).replaceAll(" ", '');
-        document.getElementById('GCw8xafj-stars').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.stargazers_count).replaceAll(" ", '');
-        const avatarEl = document.getElementById('GCw8xafj-avatar');
+        document.getElementById('GC5hmxds-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
+        document.getElementById('GC5hmxds-language').innerText = data.language;
+        document.getElementById('GC5hmxds-forks').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.forks).replaceAll(" ", '');
+        document.getElementById('GC5hmxds-stars').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.stargazers_count).replaceAll(" ", '');
+        const avatarEl = document.getElementById('GC5hmxds-avatar');
         avatarEl.style.backgroundImage = 'url(' + data.owner.avatar_url + ')';
         avatarEl.style.backgroundColor = 'transparent';
-        document.getElementById('GCw8xafj-license').innerText = data.license?.spdx_id || "no-license";
-        document.getElementById('GCw8xafj-card').classList.remove("fetch-waiting");
-        console.log("[GITHUB-CARD] Loaded card for saicaca/fuwari | GCw8xafj.")
+        document.getElementById('GC5hmxds-license').innerText = data.license?.spdx_id || "no-license";
+        document.getElementById('GC5hmxds-card').classList.remove("fetch-waiting");
+        console.log("[GITHUB-CARD] Loaded card for saicaca/fuwari | GC5hmxds.")
       }).catch(err => {
-        const c = document.getElementById('GCw8xafj-card');
+        const c = document.getElementById('GC5hmxds-card');
         c?.classList.add("fetch-error");
-        console.warn("[GITHUB-CARD] (Error) Loading card for saicaca/fuwari | GCw8xafj.")
+        console.warn("[GITHUB-CARD] (Error) Loading card for saicaca/fuwari | GC5hmxds.")
       })
-    </script></a><p><strong>同时我也将修改好的模板进行了开源</strong></p><a id="GC96xsjv-card" class="card-github fetch-waiting no-styling" href="https://github.com/ed333a/tyhFuwari" target="_blank" repo="ed333a/tyhFuwari"><div class="gc-titlebar"><div class="gc-titlebar-left"><div class="gc-owner"><div id="GC96xsjv-avatar" class="gc-avatar"></div><div class="gc-user">ed333a</div></div><div class="gc-divider">/</div><div class="gc-repo">tyhFuwari</div></div><div class="github-logo"></div></div><div id="GC96xsjv-description" class="gc-description">Waiting for api.github.com...</div><div class="gc-infobar"><div id="GC96xsjv-stars" class="gc-stars">00K</div><div id="GC96xsjv-forks" class="gc-forks">0K</div><div id="GC96xsjv-license" class="gc-license">0K</div><span id="GC96xsjv-language" class="gc-language">Waiting...</span></div><script id="GC96xsjv-script" type="text/javascript" defer>
+    </script></a><p><strong>同时我也将修改好的模板进行了开源</strong></p><a id="GChjmfzs-card" class="card-github fetch-waiting no-styling" href="https://github.com/ed333a/tyhFuwari" target="_blank" repo="ed333a/tyhFuwari"><div class="gc-titlebar"><div class="gc-titlebar-left"><div class="gc-owner"><div id="GChjmfzs-avatar" class="gc-avatar"></div><div class="gc-user">ed333a</div></div><div class="gc-divider">/</div><div class="gc-repo">tyhFuwari</div></div><div class="github-logo"></div></div><div id="GChjmfzs-description" class="gc-description">Waiting for api.github.com...</div><div class="gc-infobar"><div id="GChjmfzs-stars" class="gc-stars">00K</div><div id="GChjmfzs-forks" class="gc-forks">0K</div><div id="GChjmfzs-license" class="gc-license">0K</div><span id="GChjmfzs-language" class="gc-language">Waiting...</span></div><script id="GChjmfzs-script" type="text/javascript" defer>
       fetch('https://api.github.com/repos/ed333a/tyhFuwari', { referrerPolicy: "no-referrer" }).then(response => response.json()).then(data => {
-        document.getElementById('GC96xsjv-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
-        document.getElementById('GC96xsjv-language').innerText = data.language;
-        document.getElementById('GC96xsjv-forks').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.forks).replaceAll(" ", '');
-        document.getElementById('GC96xsjv-stars').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.stargazers_count).replaceAll(" ", '');
-        const avatarEl = document.getElementById('GC96xsjv-avatar');
+        document.getElementById('GChjmfzs-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
+        document.getElementById('GChjmfzs-language').innerText = data.language;
+        document.getElementById('GChjmfzs-forks').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.forks).replaceAll(" ", '');
+        document.getElementById('GChjmfzs-stars').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.stargazers_count).replaceAll(" ", '');
+        const avatarEl = document.getElementById('GChjmfzs-avatar');
         avatarEl.style.backgroundImage = 'url(' + data.owner.avatar_url + ')';
         avatarEl.style.backgroundColor = 'transparent';
-        document.getElementById('GC96xsjv-license').innerText = data.license?.spdx_id || "no-license";
-        document.getElementById('GC96xsjv-card').classList.remove("fetch-waiting");
-        console.log("[GITHUB-CARD] Loaded card for ed333a/tyhFuwari | GC96xsjv.")
+        document.getElementById('GChjmfzs-license').innerText = data.license?.spdx_id || "no-license";
+        document.getElementById('GChjmfzs-card').classList.remove("fetch-waiting");
+        console.log("[GITHUB-CARD] Loaded card for ed333a/tyhFuwari | GChjmfzs.")
       }).catch(err => {
-        const c = document.getElementById('GC96xsjv-card');
+        const c = document.getElementById('GChjmfzs-card');
         c?.classList.add("fetch-error");
-        console.warn("[GITHUB-CARD] (Error) Loading card for ed333a/tyhFuwari | GC96xsjv.")
+        console.warn("[GITHUB-CARD] (Error) Loading card for ed333a/tyhFuwari | GChjmfzs.")
       })
     </script></a></section>  </div> <script type="module">document.addEventListener("click",function(s){const t=s.target;if(t&&t.classList.contains("copy-btn")){const c=t.closest("pre")?.querySelector("code"),i=Array.from(c?.querySelectorAll(".code:not(summary *)")??[]).map(e=>e.textContent).map(e=>e===`
 `?"":e).join(`

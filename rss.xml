@@ -136,7 +136,7 @@ Hexo 初始化时会从 Github 克隆一个模板仓库，有时受限于网络�
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;生成好的静态资源位于 &lt;code&gt;public&lt;/code&gt; 文件夹下&lt;/p&gt;
 </content:encoded></item><item><title>FPGA SPI 通信</title><link>https://blog.tyh123.top/posts/52a1f482/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/52a1f482/</guid><pubDate>Sun, 19 Apr 2026 14:38:34 GMT</pubDate><content:encoded>&lt;h3&gt;简介&lt;/h3&gt;
-&lt;p&gt;在之前讲 {% post_link &apos;FPGA 串口通信&apos; %} 的时候，有讲到过&lt;strong&gt;串口通信是异步通信&lt;/strong&gt;，而 SPI 通信是一个&lt;strong&gt;典型的同步通信&lt;/strong&gt;。它需要&lt;strong&gt;主设备驱动时钟信号线&lt;/strong&gt;，所有数据位的发送和接收都在时钟的边沿触发，收发双方不再需要各自校准波特率，也不用起始位/停止位等操作，因此相比于异步的串口通信，这种通信方式效率更高，时序更稳定。缺点则是占用了更多的管脚，在 PCB 的布局布线上相比于串口复杂一些。&lt;/p&gt;
+&lt;p&gt;在之前讲 :post{dir=&quot;fpga/FPGA 实现通信接口/FPGA 串口通信.md&quot; text=&quot;串口通信&quot;} 的时候，有讲到过&lt;strong&gt;串口通信是异步通信&lt;/strong&gt;，而 SPI 通信是一个&lt;strong&gt;典型的同步通信&lt;/strong&gt;。它需要&lt;strong&gt;主设备驱动时钟信号线&lt;/strong&gt;，所有数据位的发送和接收都在时钟的边沿触发，收发双方不再需要各自校准波特率，也不用起始位/停止位等操作，因此相比于异步的串口通信，这种通信方式效率更高，时序更稳定。缺点则是占用了更多的管脚，在 PCB 的布局布线上相比于串口复杂一些。&lt;/p&gt;
 &lt;h3&gt;标准 SPI(四线式) 接口&lt;/h3&gt;
 &lt;p&gt;标准 SPI 接口采用的是四线式接线方式，有 SCLK、MOSI、MISO 以及 SS#/CS# 四根信号线。这种方式的 SPI 接口支持全双工通信，即同时接收和发送。&lt;/p&gt;
 &lt;ul&gt;
