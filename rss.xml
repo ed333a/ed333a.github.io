@@ -454,6 +454,7 @@ wire    update_edge         = (CPHA == 0) ? spi_sclk_negedge : spi_sclk_posedge 
 wire    sample_edge         = (CPHA == 0) ? spi_sclk_posedge : spi_sclk_negedge ;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;完整的 SPI 代码&lt;/h3&gt;
+&lt;p&gt;代码较长，已对 &lt;code&gt;50-238&lt;/code&gt; 行的代码内容进行折叠操作&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;module spi_master #(
     parameter                       DATA_WIDTH          = 5&apos;d24             , // data width, [1bit RW ctrl, 15 bits register addr, 8 bits data]
     parameter                       CPOL                = 1&apos;b0              , // Clock polarity
@@ -697,7 +698,7 @@ endmodule
 &lt;p&gt;SDIO 通信完全不需要从头开始编写代码，以上方提供的 &lt;code&gt;spi_master&lt;/code&gt; 模块的代码作为基础，将其作为一个子模块封装到顶层模块，再用 IOBUF 原语实现一个双向 IO 即可。&lt;/p&gt;
 &lt;p&gt;完整代码如下：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;module sdio_interface (
-	input   wire            clk             ,   //  模块的时钟信号
+    input   wire            clk             ,   //  模块的时钟信号
     input   wire            rst_n           ,   //  模块的复位信号，低电平有效
     
     input   wire            rh_wl           ,   //  读写控制信号, 读为高电平，写为低电平
@@ -915,6 +916,7 @@ end
 wire eth_mdc_posedge = !eth_mdc &amp;amp; eth_mdc_inv;   // indicates MDC posedge
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h4&gt;完整的 MDIO 驱动代码&lt;/h4&gt;
+&lt;p&gt;已折叠部分代码 (点击即可展开)&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;module mdio_dri # (
     parameter   CLK_DIV = 8&apos;d10                 // for MDC generation, The max frequency of MDC is 12.500MHz
 )(
@@ -1157,7 +1159,7 @@ endmodule
 &lt;p&gt;常见的波特率有 9600、19200 以及 115200 等。波特率是人为规定的，理论上你可以设置任何速度的波特率，只要通信双方波特率一致，就可以正常通信。但实际硬件和软件通常只支持有限个常用值，这受限于系统时钟的分频：分频只能得到某些特定的数值，例如前面提到的常见波特率。此外，常见的操作系统和串口软件通常也只在常用波特率列表中提供选择，支持手动输入任意波特率的情况并不多。&lt;/p&gt;
 &lt;h2&gt;实现代码&lt;/h2&gt;
 &lt;h4&gt;串口发送模块&lt;/h4&gt;
-&lt;p&gt;该模块负责串口数据的发送&lt;/p&gt;
+&lt;p&gt;该模块负责串口数据的发送，已折叠部分代码 (点击折叠内容即可打开)&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;// FILE_HEADER_HEADER-------------------------------------------------------------------------------
 // Copyright (c) 2026, Mr. Tian. All rights reserved.
 //--------------------------------------------------------------------------------------------------
@@ -1326,7 +1328,7 @@ end
 endmodule
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h4&gt;串口接收模块&lt;/h4&gt;
-&lt;p&gt;该模块负责串口数据的接收&lt;/p&gt;
+&lt;p&gt;该模块负责串口数据的接收，已折叠部分代码 (点击折叠内容即可打开)&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;// FILE_HEADER_HEADER-------------------------------------------------------------------------------
 // Copyright (c) 2026, Mr. Tian. All rights reserved.
 //--------------------------------------------------------------------------------------------------
@@ -1704,7 +1706,8 @@ TCP/IP 是互联网的核心通信协议，它并非单一的协议，而是一�
 &lt;li&gt;模块等待下游以太网封包模块拉高 &lt;code&gt;s_axis_trdy&lt;/code&gt; 信号，之后开始发送 ARP 数据。&lt;/li&gt;
 &lt;li&gt;发送到最后一个字节的 ARP 数据时，产生 &lt;code&gt;s_axis_tend&lt;/code&gt; 信号。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;完整的实现代码如下：&lt;/p&gt;
+&lt;p&gt;完整的实现代码如下：
+已折叠部分代码&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;module arp_tx (
     input   wire            clk             ,   //  [I] [     ] module clock
     input   wire            rst_n           ,   //  [I] [     ] module reset, active-low
@@ -2616,9 +2619,9 @@ endmodule
 &lt;li&gt;接收完毕后比对接收到的目的 MAC 是否与板卡上的 MAC 一致，若一致则进入接收负载数据阶段。否则直接丢弃这个数据包。&lt;/li&gt;
 &lt;li&gt;接收负载阶段，&lt;code&gt;s_axis_rdv&lt;/code&gt; 信号将会被拉高，直到负载阶段结束。负载阶段结束时 &lt;code&gt;s_axis_rend&lt;/code&gt; 会产生一个时钟周期的高电平脉冲信号。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：为了能够完整的接收 FCS(帧校验序列)，模块中的做法制是制作一个 4 字节的缓冲区，将来自 &lt;code&gt;gmii_rxd&lt;/code&gt; 的数据延迟 4 个字节发送到 &lt;code&gt;s_axis_rd&lt;/code&gt; 端口上，这样直到 FCS 阶段结束，缓冲区内的 4 字节数据刚好就是接收到的 FCS 数据。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;:::note
+为了能够完整的接收 FCS(帧校验序列)，模块中的做法制是制作一个 4 字节的缓冲区，将来自 &lt;code&gt;gmii_rxd&lt;/code&gt; 的数据延迟 4 个字节发送到 &lt;code&gt;s_axis_rd&lt;/code&gt; 端口上，这样直到 FCS 阶段结束，缓冲区内的 4 字节数据刚好就是接收到的 FCS 数据。
+:::&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;// NOTE_HEADER--------------------------------------------------------------------------------------
 // HOW TO USE:
 //  1. Set s_axis_rrdy to 1&apos;b1, for enable receive data from RGMII interface.
@@ -2992,10 +2995,9 @@ eth_frame_encap # (
 </content:encoded></item><item><title>ETH-02 RGMII 接口和 GMII 接口的互相转换</title><link>https://blog.tyh123.top/posts/db8d0357/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/db8d0357/</guid><pubDate>Tue, 14 Apr 2026 14:26:09 GMT</pubDate><content:encoded>&lt;p&gt;在 &lt;a href=&quot;ETH-01%20%E5%88%9D%E8%AF%86%E4%BB%A5%E5%A4%AA%E7%BD%91%E7%9A%84%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%88%90.md&quot;&gt;ETH-01 初识以太网的硬件组成&lt;/a&gt; 中我讲到了 RGMII 接口和 GMII 的两种数据接口。本篇则围绕这两种数据接口的互相转换展开。&lt;/p&gt;
 &lt;h3&gt;前言&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;在 FPGA 中，数据通常只在时钟的上升沿被采集。对于采用双边沿数据有效的 RGMII 接口而言，若仅使用上升沿进行采样，就会丢失下降沿所对应的数据&lt;/strong&gt;。同理，FPGA 在输出数据时，也只能在上升沿发生变化。为解决这一问题，Xilinx 提供了 &lt;code&gt;IDDR&lt;/code&gt; 和 &lt;code&gt;ODDR&lt;/code&gt; 两个原语，分别用于接收和发送双边沿数据。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;下方所有配图均来自 &lt;a href=&quot;https://docs.amd.com/v/u/en-US/ug471_7Series_SelectIO&quot;&gt;7Series FPGAs SelectIO Resources User Guide (UG471)&lt;/a&gt;
-你可以打开 DOCNav 来搜索对应的文档名称&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;:::note
+下方所有配图均来自 &lt;a href=&quot;https://docs.amd.com/v/u/en-US/ug471_7Series_SelectIO&quot;&gt;[7Series FPGAs SelectIO Resources User Guide (UG471)]&lt;/a&gt;, 你可以打开 DOCNav 来搜索对应的文档名称
+:::&lt;/p&gt;
 &lt;h3&gt;IDDR (Input Double Data Rate)&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;IDDR&lt;/code&gt; 的作用是将 RGMII 接口中的&lt;strong&gt;双边沿数据&lt;/strong&gt; (DDR) 转换为 FPGA 内部可以处理的&lt;strong&gt;单边沿数据&lt;/strong&gt;，&lt;code&gt;IDDR&lt;/code&gt; 将双边沿变化的数据通过寄存器输出到了 Q1/Q2 两个端口上，分别代表上升沿的数据和下降沿的数据。&lt;/p&gt;
 &lt;p&gt;下面是 IDDR 原语的语言模板&lt;/p&gt;
@@ -3039,7 +3041,7 @@ eth_frame_encap # (
 通过时序图我们可以看到 &lt;code&gt;IDDR&lt;/code&gt; 原语在 &lt;code&gt;SAME_EDGE_PIPELINED&lt;/code&gt; 对齐模式下满足了我们的数据对齐要求，所以在这里我们使用 &lt;code&gt;SAME_EDGE_PIPELINED&lt;/code&gt; 对齐方式。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;ODDR (Output Double Data Rate)&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;ODDR&lt;/code&gt; 的作用正好与 &lt;code&gt;IDDR&lt;/code&gt; 是相反的，它通过在时钟的上升沿更新 &lt;code&gt;Q1/Q2&lt;/code&gt; 的值，之后输出双边沿变化的 DDR 信号。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ODDR&lt;/code&gt; 的作用正好与 &lt;code&gt;IDDR&lt;/code&gt; 是相反的，它通过在&lt;strong&gt;时钟的上升沿更新 &lt;code&gt;Q1/Q2&lt;/code&gt; 的值&lt;/strong&gt;，之后输出双边沿变化的 DDR 信号。&lt;/p&gt;
 &lt;p&gt;下面是 ODDR 的语言模板&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;ODDR #(
   .DDR_CLK_EDGE (&quot;OPPOSITE_EDGE&quot;),  // &quot;OPPOSITE_EDGE&quot; or &quot;SAME_EDGE&quot; 
@@ -3130,9 +3132,9 @@ eth_frame_encap # (
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;blockquote&gt;
-&lt;p&gt;在标准操作中，大多数应用只需要关注&lt;code&gt;正常帧传输&lt;/code&gt;（上升沿=1，下降沿=1）和&lt;code&gt;数据错误&lt;/code&gt;（上升沿=1，下降沿=0）这两种情况。&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;p&gt;:::note
+在标准操作中，大多数应用只需要关注&lt;code&gt;正常帧传输&lt;/code&gt;（上升沿=1，下降沿=1）和&lt;code&gt;数据错误&lt;/code&gt;（上升沿=1，下降沿=0）这两种情况。
+:::&lt;/p&gt;
 &lt;p&gt;关于 &lt;code&gt;TX_CTL&lt;/code&gt; 信号的产生方式，代码如下：&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;ODDR #(
     .DDR_CLK_EDGE   (   &quot;SAME_EDGE&quot;     ),  //  &quot;OPPOSITE_EDGE&quot; or &quot;SAME_EDGE&quot; 
