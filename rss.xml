@@ -651,57 +651,6 @@ endmodule
 之后我们会来到这个页面，相关选项已在图中表示，配置好后往下翻找到 Save and Deploy 蓝色按钮，点击保存后开始自动部署。
 &lt;img src=&quot;/img/posts/blog/02/pages_setup.png&quot; alt=&quot;&quot; /&gt;
 之后自动部署好的静态网页将可以通过 &lt;code&gt;hexo-repo-e1a.pages.dev&lt;/code&gt; 这个链接访问。在这之前我已经创建好了一个静态资源网页，它的地址是 &lt;code&gt;hexo-repo-1qi.pages.dev&lt;/code&gt;。&lt;/p&gt;
-</content:encoded></item><item><title>[blog-MT-01] - 博客建站过程</title><link>https://blog.tyh123.top/posts/f1ef2aaa/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/f1ef2aaa/</guid><pubDate>Tue, 19 May 2026 22:33:31 GMT</pubDate><content:encoded>&lt;h3&gt;关于 Hexo&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Hexo&lt;/strong&gt; 是一个基于 Node.js 编写的快速、简洁且高效的&lt;strong&gt;博客框架&lt;/strong&gt;。它通过解析 Markdown 格式的源文件，结合主题模板，一键生成静态网页资源；用户可以将这些静态资源文件部署到如 Github Pages 的静态资源托管服务站点上，无需后端环境或数据库，即可拥有高性能、易于维护的个人博客站点。&lt;/p&gt;
-&lt;h3&gt;配置 Node.js 环境&lt;/h3&gt;
-&lt;p&gt;在安装 Hexo 之前，首先要配置 Node.js 环境，前往 &lt;a href=&quot;https://nodejs.cn/download/&quot;&gt;Node.js 中文网下载页面&lt;/a&gt; 下载适合你当前所使用的系统的 Node.js 安装包。&lt;/p&gt;
-&lt;p&gt;:::warning
-使用 Windows 10 或更高版本的系统时，通常建议 &lt;strong&gt;直接下载安装包 [Windows 安装包(.msi)]&lt;/strong&gt; 进行安装，以免因 PowerShell 执行策略阻止未签名脚本运行，造成 npm 脚本无法正常执行。
-:::&lt;/p&gt;
-&lt;h3&gt;安装 Hexo&lt;/h3&gt;
-&lt;p&gt;安装好 Node.js 后，使用以下命令来全局安装 hexo&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ npm install hexo-cli -g
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;安装完成后，在控制台中输入以下命令后，控制台中应出现 hexo-cli 的安装版本&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ hexo -v
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&quot;/img/posts/blog/01/cmd_hexo_v.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;在此次安装过程中，我的控制台中提示了以下内容，这种情况一般是在安装 Node.js 时没有配置好系统变量。将 &lt;code&gt;%appdata%/npm&lt;/code&gt; 这个路径添加到系统变量中即可 (复制到文件资源管理器中的地址栏，然后获得绝对路径)。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ hexo: 无法将 “hexo” 项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确，然后再试一次。
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;初始化 Hexo 目录&lt;/h3&gt;
-&lt;p&gt;完成 Hexo 的安装后，在&lt;strong&gt;适当的位置&lt;/strong&gt;创建一个文件夹，用来存放 hexo 的项目文件。
-&lt;img src=&quot;/img/posts/blog/01/hexo_project_folder.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;:::tip
-&lt;strong&gt;这里的文件夹仅作为演示使用，无须严格按照图中所示的路径创建，你可以依照自己的文件管理习惯自己创建&lt;/strong&gt;
-:::&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;进入这个文件夹&lt;/strong&gt;，然后执行以下命令&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ hexo init
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;之后 Hexo 将会在文件夹下初始化一些必要文件，如图所示。
-&lt;img src=&quot;/img/posts/blog/01/hexo_project_init.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;:::warning
-Hexo 初始化时会从 Github 克隆一个模板仓库，有时受限于网络波动等因素，你可能无法完成初始化，此时请考虑&lt;strong&gt;使用网络代理&lt;/strong&gt;或其它方式完成初始化。
-:::&lt;/p&gt;
-&lt;p&gt;初始化完成后，使用以下命令安装 Node.js 模块&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ npm install
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;至此，你已完成 Hexo 建站的所有前置条件，使用以下命令即可开启一个本地服务器用来预览你的 Hexo 页面&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ hexo s
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;然后在浏览器中输入控制台输出的地址 &lt;code&gt;localhost:4000&lt;/code&gt; 即可预览你的 hexo 页面
-&lt;img src=&quot;/img/posts/blog/01/hexo_page_hello_world.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-&lt;p&gt;:::tip
-当默认端口被占用时，你可以在命令后面增加参数 &lt;code&gt;-p [端口号]&lt;/code&gt; 来指定一个未占用的端口。&lt;/p&gt;
-&lt;p&gt;命令如下&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ hexo s -p 4001
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;:::&lt;/p&gt;
-&lt;h3&gt;生成静态资源&lt;/h3&gt;
-&lt;p&gt;使用以下命令可以生成部署到 Github Pages 的静态资源&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;$ hexo g
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;生成好的静态资源位于 &lt;code&gt;public&lt;/code&gt; 文件夹下&lt;/p&gt;
 </content:encoded></item><item><title>FPGA SPI 通信</title><link>https://blog.tyh123.top/posts/52a1f482/</link><guid isPermaLink="true">https://blog.tyh123.top/posts/52a1f482/</guid><pubDate>Sun, 19 Apr 2026 14:38:34 GMT</pubDate><content:encoded>&lt;h3&gt;简介&lt;/h3&gt;
 &lt;p&gt;在之前讲 :post{dir=&quot;fpga/FPGA 实现通信接口/FPGA 串口通信.md&quot; text=&quot;串口通信&quot;} 的时候，有讲到过&lt;strong&gt;串口通信是异步通信&lt;/strong&gt;，而 SPI 通信是一个&lt;strong&gt;典型的同步通信&lt;/strong&gt;。它需要&lt;strong&gt;主设备驱动时钟信号线&lt;/strong&gt;，所有数据位的发送和接收都在时钟的边沿触发，收发双方不再需要各自校准波特率，也不用起始位/停止位等操作，因此相比于异步的串口通信，这种通信方式效率更高，时序更稳定。缺点则是占用了更多的管脚，在 PCB 的布局布线上相比于串口复杂一些。&lt;/p&gt;
 &lt;h3&gt;标准 SPI(四线式) 接口&lt;/h3&gt;
