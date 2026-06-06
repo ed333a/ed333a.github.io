@@ -1,155 +1,29 @@
 /* 自动生成的全局字体声明 */
 @font-face {
     font-family: 'Yozai';
-    src: url('/_astro/fonts/849fe476878fcc1a.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Yozai';
-    src: url('/_astro/fonts/849fe476878fcc1a.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Yozai';
-    src: url('/_astro/fonts/849fe476878fcc1a.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'LXGWWenKaiMonoGB';
-    src: url('/_astro/fonts/a08fc9c086316de7.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'LXGWWenKaiMonoGB';
-    src: url('/_astro/fonts/a08fc9c086316de7.woff2') format('woff2');
+    src: url('/_astro/fonts/e40a7f7560be4c82.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'LXGWWenKaiMonoGB';
-    src: url('/_astro/fonts/a08fc9c086316de7.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
+    src: url('/_astro/fonts/f04849ac4c04b8ee.woff2') format('woff2');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
     font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 600;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 100;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 100;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 700;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 800;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 800;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 200;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 200;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
+    src: url('/_astro/fonts/ddcddbd0c6f84837.woff2') format('woff2');
     font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 300;
     font-style: normal;
     font-display: swap;
 }
 @font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 300;
-    font-style: italic;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'JetBrainsMono';
-    src: url('/_astro/fonts/81ae8eda21055e4f.woff2') format('woff2');
-    font-weight: 500;
+    font-family: 'JetBrainsMono-Italic';
+    src: url('/_astro/fonts/28a2124de6b471c1.woff2') format('woff2');
+    font-weight: 400;
     font-style: italic;
     font-display: swap;
 }
@@ -157,6 +31,6 @@
 
 /* 应用全局字体 */
 * {
-    font-family: 'JetBrainsMono', 'LXGWWenKaiMonoGB';
+    font-family: 'JetBrainsMono', 'JetBrainsMono-Italic', 'LXGWWenKaiMonoGB';
     line-height: 1.5rem
 }
