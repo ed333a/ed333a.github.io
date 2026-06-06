@@ -9,9 +9,9 @@
 &lt;/ul&gt;
 &lt;h3&gt;IP 协议格式&lt;/h3&gt;
 &lt;h4&gt;MAC 帧&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;/public/img/posts/fpga_impl_interface/ethernet_impl/eth-05/mac-frame.png&quot; alt=&quot;MAC-FRAME&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/fpga_impl_interface/ethernet_impl/eth-05/mac-frame.png&quot; alt=&quot;MAC-FRAME&quot; /&gt;&lt;/p&gt;
 &lt;h4&gt;IP 首部格式&lt;/h4&gt;
-&lt;p&gt;&lt;img src=&quot;public/img/posts/fpga_impl_interface/ethernet_impl/eth-05/ip-format.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/fpga_impl_interface/ethernet_impl/eth-05/ip-format.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;版本 (4 bits)&lt;/strong&gt;: IP 版本号, IPv4 = 4, IPv6 = 6.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;首部长度 (4 bits)&lt;/strong&gt;: 以 32bit (4 字节) 为一个单位的首部长度, 首部长度一般填 5, 即 20 字节的长度.&lt;/li&gt;
@@ -37,7 +37,7 @@
 &lt;h3&gt;首部校验和计算方法&lt;/h3&gt;
 &lt;p&gt;IP 首部校验和用于检测 IP 数据报首部在传输过程中是否出现错误。它只覆盖 IP 首部（不包括数据部分）, 且采用 &lt;strong&gt;16 位反码求和&lt;/strong&gt; 算法。&lt;/p&gt;
 &lt;p&gt;假设我们的 IP 首部数据经过填充后如下图所示。
-&lt;img src=&quot;public/img/posts/fpga_impl_interface/ethernet_impl/eth-05/ip-header-filled.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;img src=&quot;/img/posts/fpga_impl_interface/ethernet_impl/eth-05/ip-header-filled.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
 &lt;h4&gt;计算前的准备&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;将校验和字段清零&lt;/strong&gt;: 在计算校验和之前, IP 首部中的 &quot;首部校验和&quot; 字段 (16 位) 必须设置为 &lt;code&gt;0x0000&lt;/code&gt;, 保证此段不参与计算。&lt;/li&gt;
